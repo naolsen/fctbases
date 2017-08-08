@@ -16,5 +16,5 @@ eval.deriv.direct(addr, x, coefs, checkValidity = TRUE)
 \item{checkValidity.}{Before evaluating, check if object is valid. Changing this is completely at your own risk!}
 }
 \description{
-A eval.direct
+A eval.direct version of eval.deriv
 }

@@ -7,5 +7,8 @@
 emptyList()
 }
 \description{
-Empties the entire container of functional objects
+Empties the entire container of functional objects. Does not delete R objects
+}
+\seealso{
+removeMember
 }
