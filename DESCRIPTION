@@ -1,10 +1,10 @@
-Package: Functional
+Package: fctbases
 Type: Package
 Title: Functional bases
-Version: 0.1.0
+Version: 0.1.4
 Author: Niels Olsen
-Maintainer: Niels Olsen niels.olsen@math.ku.dk
-Description: More about what it does (maybe more than one line)
+Maintainer: Niels Olsen <niels.olsen@math.ku.dk>
+Description: Implementation of functional bases.
 License: GPL
 LazyData: TRUE
 Imports:
