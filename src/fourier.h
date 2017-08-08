@@ -50,7 +50,7 @@ public:
     return ret;
   }
 
-  arma::mat eval_coefs(arma::vec x) {
+  arma::mat eval_coefs(const arma::vec& x) {
     mat ud(x.n_elem , n_basis);
 
     for (int kk = 0; kk < x.n_elem; kk++) {
@@ -68,7 +68,7 @@ public:
   return ud;
   }
 
-  double eval_fct(double x, arma::vec coefs) {
+  double eval_fct(double x, const arma::vec& coefs) {
 
     if (n_basis != coefs.n_elem) throw std::invalid_argument("Coeffienct vector must have same length as number of bases");
 
@@ -84,7 +84,7 @@ public:
 
   }
 // kan måske gøres bedre.
-  arma::vec eval_fct(arma::vec x, arma::vec coefs) {
+  arma::vec eval_fct(const arma::vec& x, const arma::vec& coefs) {
     if (n_basis != coefs.n_elem) throw std::invalid_argument("Coeffienct vector must have same length as number of bases");
 
     vec ud = zeros<vec>(x.n_elem);
@@ -106,7 +106,7 @@ public:
 
     return ret;
     }
-  arma::mat eval_deriv_coefs(arma::vec x) {
+  arma::mat eval_deriv_coefs(const arma::vec& x) {
     mat ud(x.n_elem, n_basis);
 
     for (int kk = 0; kk < x.n_elem; kk++) {
@@ -124,7 +124,7 @@ public:
     return ud;
     }
 
-  double eval_deriv(double x, arma::vec coefs) {
+  double eval_deriv(double x, const arma::vec& coefs) {
 
     if (n_basis != coefs.n_elem) throw std::invalid_argument("Coeffienct vector must have same length as number of bases");
 
@@ -132,13 +132,13 @@ public:
     double ud = 0;
 
     for (int i=1; i<=order; i++) {
-      ud += sin(z*i)*coefs(2*i-1) * inv_length * i;
-      ud += cos(z*i)*coefs(2*i) * inv_length * i;
+      ud += cos(z*i)*coefs(2*i-1) * inv_length * i;
+      ud -= sin(z*i)*coefs(2*i) * inv_length * i;
     }
 
   return ud;
   }
-  arma::vec eval_deriv(arma::vec x, arma::vec coefs) {
+  arma::vec eval_deriv(arma::vec x, const arma::vec& coefs) {
 
     if (n_basis != coefs.n_elem) throw std::invalid_argument("Coeffienct vector must have same length as number of bases");
 
@@ -147,6 +147,17 @@ public:
 
     return ud;
     }
+public: Rcpp::List returnObject() { 
+  List ret;
+  ret["n_basis"] = (int) n_basis;
+  ret["object_type"] = "Fourier basis";
+  IntegerVector IV(2);
+  IV(0) = left_end;
+  IV(1) = right_end;
+  ret["endpoints"] = IV;
+  ret["harmonics_order"] = (int) order;
+  return ret;
+};
 };
 
 

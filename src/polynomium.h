@@ -25,7 +25,7 @@ public:
     return ret;
   }
   
-  arma::mat eval_coefs(arma::vec x) {
+  arma::mat eval_coefs(const arma::vec& x) {
     
     mat ud = zeros<mat>(x.n_elem, n_basis);
     double x0;
@@ -41,7 +41,7 @@ public:
     return ud;
   }
   
-  double eval_fct(double x, arma::vec coefs) {
+  double eval_fct(double x, const arma::vec& coefs) {
     //vec ret = vec(n_basis);
     double ud = coefs(0);
     double x0 = 1.0;
@@ -53,7 +53,7 @@ public:
     
   }
   
-  arma::vec eval_fct(arma::vec x, arma::vec coefs) {
+  arma::vec eval_fct(const arma::vec& x, const arma::vec& coefs) {
     if (n_basis != coefs.n_elem) stop("Coeffienct vector must have same length as number of bases");
     
     vec ud = zeros<vec>(x.n_elem);
@@ -74,7 +74,7 @@ public:
     return ret;
   }
   
-  arma::mat eval_deriv_coefs(arma::vec x) {
+  arma::mat eval_deriv_coefs(const arma::vec& x) {
     mat ud(x.n_elem, n_basis);
     
     for (int kk = 0; kk < x.n_elem; kk++) {
@@ -94,7 +94,7 @@ public:
   
   
   // Evaluaterer d/dx p(x) ganget på koefficienter
-  double eval_deriv(double x, arma::vec coefs) {
+  double eval_deriv(double x, const arma::vec& coefs) {
     
     double ud = 0.0;
     double x0 = 1.0;
@@ -107,7 +107,7 @@ public:
     
   }
   
-  arma::vec eval_deriv(arma::vec x, arma::vec coefs) {
+  arma::vec eval_deriv(const arma::vec& x, const arma::vec& coefs) {
     if (n_basis != coefs.n_elem) stop("Coeffienct vector must have same length as number of bases");
     
     vec ud = zeros<vec>(x.n_elem);

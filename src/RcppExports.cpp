@@ -8,7 +8,7 @@ using namespace Rcpp;
 
 // init_unif_bspline
 int init_unif_bspline(arma::vec range, int nknots, int spline_order, bool ind_count);
-RcppExport SEXP Functional_init_unif_bspline(SEXP rangeSEXP, SEXP nknotsSEXP, SEXP spline_orderSEXP, SEXP ind_countSEXP) {
+RcppExport SEXP fctbases_init_unif_bspline(SEXP rangeSEXP, SEXP nknotsSEXP, SEXP spline_orderSEXP, SEXP ind_countSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -22,7 +22,7 @@ END_RCPP
 }
 // initBspline
 int initBspline(int spline_order, arma::vec spline_knots, bool ind_count);
-RcppExport SEXP Functional_initBspline(SEXP spline_orderSEXP, SEXP spline_knotsSEXP, SEXP ind_countSEXP) {
+RcppExport SEXP fctbases_initBspline(SEXP spline_orderSEXP, SEXP spline_knotsSEXP, SEXP ind_countSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -35,7 +35,7 @@ END_RCPP
 }
 // initBspline1
 int initBspline1(arma::vec spline_knots, bool ind_count);
-RcppExport SEXP Functional_initBspline1(SEXP spline_knotsSEXP, SEXP ind_countSEXP) {
+RcppExport SEXP fctbases_initBspline1(SEXP spline_knotsSEXP, SEXP ind_countSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -47,7 +47,7 @@ END_RCPP
 }
 // init_fourier_basis
 int init_fourier_basis(arma::vec range, int f_order, bool j);
-RcppExport SEXP Functional_init_fourier_basis(SEXP rangeSEXP, SEXP f_orderSEXP, SEXP jSEXP) {
+RcppExport SEXP fctbases_init_fourier_basis(SEXP rangeSEXP, SEXP f_orderSEXP, SEXP jSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -60,7 +60,7 @@ END_RCPP
 }
 // init_pol_basis
 int init_pol_basis(int deg);
-RcppExport SEXP Functional_init_pol_basis(SEXP degSEXP) {
+RcppExport SEXP fctbases_init_pol_basis(SEXP degSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -71,7 +71,7 @@ END_RCPP
 }
 // getObjectsOnList
 Rcpp::IntegerVector getObjectsOnList();
-RcppExport SEXP Functional_getObjectsOnList() {
+RcppExport SEXP fctbases_getObjectsOnList() {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -81,7 +81,7 @@ END_RCPP
 }
 // emptyList
 void emptyList();
-RcppExport SEXP Functional_emptyList() {
+RcppExport SEXP fctbases_emptyList() {
 BEGIN_RCPP
     Rcpp::RNGScope rcpp_rngScope_gen;
     emptyList();
@@ -90,7 +90,7 @@ END_RCPP
 }
 // removeMember
 bool removeMember(int address);
-RcppExport SEXP Functional_removeMember(SEXP addressSEXP) {
+RcppExport SEXP fctbases_removeMember(SEXP addressSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -100,63 +100,74 @@ BEGIN_RCPP
 END_RCPP
 }
 // cpp_eval_coefs
-arma::vec cpp_eval_coefs(int address, arma::vec x, arma::vec coefs);
-RcppExport SEXP Functional_cpp_eval_coefs(SEXP addressSEXP, SEXP xSEXP, SEXP coefsSEXP) {
+arma::vec cpp_eval_coefs(int address, const arma::vec& x, const arma::vec& coefs);
+RcppExport SEXP fctbases_cpp_eval_coefs(SEXP addressSEXP, SEXP xSEXP, SEXP coefsSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< int >::type address(addressSEXP);
-    Rcpp::traits::input_parameter< arma::vec >::type x(xSEXP);
-    Rcpp::traits::input_parameter< arma::vec >::type coefs(coefsSEXP);
+    Rcpp::traits::input_parameter< const arma::vec& >::type x(xSEXP);
+    Rcpp::traits::input_parameter< const arma::vec& >::type coefs(coefsSEXP);
     rcpp_result_gen = Rcpp::wrap(cpp_eval_coefs(address, x, coefs));
     return rcpp_result_gen;
 END_RCPP
 }
 // cpp_eval_0
-arma::mat cpp_eval_0(int address, arma::vec x);
-RcppExport SEXP Functional_cpp_eval_0(SEXP addressSEXP, SEXP xSEXP) {
+arma::mat cpp_eval_0(int address, const arma::vec& x);
+RcppExport SEXP fctbases_cpp_eval_0(SEXP addressSEXP, SEXP xSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< int >::type address(addressSEXP);
-    Rcpp::traits::input_parameter< arma::vec >::type x(xSEXP);
+    Rcpp::traits::input_parameter< const arma::vec& >::type x(xSEXP);
     rcpp_result_gen = Rcpp::wrap(cpp_eval_0(address, x));
     return rcpp_result_gen;
 END_RCPP
 }
 // cpp_eval_Dcoefs
-arma::vec cpp_eval_Dcoefs(int address, arma::vec x, arma::vec coefs);
-RcppExport SEXP Functional_cpp_eval_Dcoefs(SEXP addressSEXP, SEXP xSEXP, SEXP coefsSEXP) {
+arma::vec cpp_eval_Dcoefs(int address, const arma::vec& x, const arma::vec& coefs);
+RcppExport SEXP fctbases_cpp_eval_Dcoefs(SEXP addressSEXP, SEXP xSEXP, SEXP coefsSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< int >::type address(addressSEXP);
-    Rcpp::traits::input_parameter< arma::vec >::type x(xSEXP);
-    Rcpp::traits::input_parameter< arma::vec >::type coefs(coefsSEXP);
+    Rcpp::traits::input_parameter< const arma::vec& >::type x(xSEXP);
+    Rcpp::traits::input_parameter< const arma::vec& >::type coefs(coefsSEXP);
     rcpp_result_gen = Rcpp::wrap(cpp_eval_Dcoefs(address, x, coefs));
     return rcpp_result_gen;
 END_RCPP
 }
 // cpp_eval_D
-arma::mat cpp_eval_D(int address, arma::vec x);
-RcppExport SEXP Functional_cpp_eval_D(SEXP addressSEXP, SEXP xSEXP) {
+arma::mat cpp_eval_D(int address, const arma::vec& x);
+RcppExport SEXP fctbases_cpp_eval_D(SEXP addressSEXP, SEXP xSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< int >::type address(addressSEXP);
-    Rcpp::traits::input_parameter< arma::vec >::type x(xSEXP);
+    Rcpp::traits::input_parameter< const arma::vec& >::type x(xSEXP);
     rcpp_result_gen = Rcpp::wrap(cpp_eval_D(address, x));
     return rcpp_result_gen;
 END_RCPP
 }
 // check_if_valid
 bool check_if_valid(int address);
-RcppExport SEXP Functional_check_if_valid(SEXP addressSEXP) {
+RcppExport SEXP fctbases_check_if_valid(SEXP addressSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< int >::type address(addressSEXP);
     rcpp_result_gen = Rcpp::wrap(check_if_valid(address));
+    return rcpp_result_gen;
+END_RCPP
+}
+// object_info
+Rcpp::List object_info(int address);
+RcppExport SEXP fctbases_object_info(SEXP addressSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< int >::type address(addressSEXP);
+    rcpp_result_gen = Rcpp::wrap(object_info(address));
     return rcpp_result_gen;
 END_RCPP
 }

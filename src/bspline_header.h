@@ -21,9 +21,6 @@ int init_unif_bspline(arma::vec range, int nknots, int spline_order, bool ind_co
   
   bspline_unif* bsk = new bspline_unif(spt, range(0), range(1), (size_t) nknots);
   
-  //bs22 = bs;
-  //  *bs1(bs);
-  //*bs1 = bspline(bs1, spt, spline_knots);
   cout << bsk;
   
   return (size_t) bsk;
@@ -38,7 +35,7 @@ int init_unif_bspline(arma::vec range, int nknots, int spline_order, bool ind_co
 //' @param spline_knots Knots of the b-spline, including endpoints. Must be increasing.
 //' @export
 //' @return integer.
-//' @useDynLib Functional
+//' @useDynLib fctbases
 // [[Rcpp::export]]
 int initBspline(int spline_order, arma::vec spline_knots, bool ind_count = false) {
   

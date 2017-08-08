@@ -28,8 +28,6 @@ static std::set<size_t> medlemmer; // Indeholder alle fct_class
 
 
 
-//, bs2, bs3;
-
 static vector<size_t> Hashtabel;
 
 
@@ -51,7 +49,7 @@ static vector<size_t> Hashtabel;
 //'
 //' @param deg Polymoial degree
 //' @export
-//'@importFrom Rcpp sourceCpp
+//' @importFrom Rcpp sourceCpp
 //' 
 // [[Rcpp::export]]
 int init_pol_basis(int deg) {
@@ -61,7 +59,7 @@ int init_pol_basis(int deg) {
   size_t spt = (size_t) deg;
   
   polynomial *p1 = new polynomial(spt);
-  cout << p1;
+  Rcout << p1;
   
   return (size_t) p1;
   
@@ -74,7 +72,7 @@ int init_pol_basis(int deg) {
 //'
 //'@export
 //'@return A list of addresses.
-//'@useDynLib Functional
+//'@useDynLib fctbases
 //'@importFrom Rcpp evalCpp
 //'
 //[[Rcpp::export]]
@@ -103,11 +101,6 @@ void emptyList() {
   Rf_warning("Emptying all members");
   
   std::set<size_t>::iterator it;
-  /*  Farlig!!
-  for (it=medlemmer.begin(); it!=medlemmer.end(); ++it) {
-    cout << *it;
-    delete ((functionObject*) *it);
-  }*/
   
   while (medlemmer.size() > 0) { // Bedre!
     delete ((functionObject*)  *medlemmer.begin());
@@ -121,7 +114,6 @@ void emptyList() {
 //' Deletes specified member from the memory.
 //' 
 //' @export
-//' @useDynLib Functional
 //'
 //[[Rcpp::export]]
 bool removeMember(int address) {

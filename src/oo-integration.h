@@ -20,28 +20,29 @@ void cpp_remover(int address) {
 */
 
 // [[Rcpp::export]]
-arma::vec cpp_eval_coefs(int address, arma::vec x, arma::vec coefs) {
+arma::vec cpp_eval_coefs(int address, const arma::vec& x, const arma::vec& coefs) {
   functionObject* fj = (functionObject*) address;
   
   return fj->eval_fct(x, coefs);
 }
 
 // [[Rcpp::export]]
-arma::mat cpp_eval_0(int address, arma::vec x) {
+arma::mat cpp_eval_0(int address, const arma::vec& x) {
   functionObject* fj = (functionObject*) address;
   
-  return fj->eval_coefs(x);
+  if (x.n_elem == 1) return fj->eval_coefs(*x.begin());
+  else return fj->eval_coefs(x);
 }
 
 // [[Rcpp::export]]
-arma::vec cpp_eval_Dcoefs(int address, arma::vec x, arma::vec coefs) {
+arma::vec cpp_eval_Dcoefs(int address, const arma::vec& x, const arma::vec& coefs) {
   functionObject* fj = (functionObject*) address;
   
   return fj->eval_deriv(x, coefs);
 }
 
 // [[Rcpp::export]]
-arma::mat cpp_eval_D(int address, arma::vec x) {
+arma::mat cpp_eval_D(int address, const arma::vec& x) {
   functionObject* fj = (functionObject*) address;
   return ((functionObject*) address)->eval_deriv_coefs(x);
 }
@@ -58,14 +59,13 @@ Rcpp::String cpp_getType(int address) {
 }
 */
 
-
 //'  Check if valid
 //'
 //' Check if address is valid
 //'
-//' @param address
+//' @param address address of object
 //' @export
-//' @useDynLib Functional
+//' @useDynLib fctbases
 //[[Rcpp::export]]
 bool check_if_valid(int address) {
   size_t st = (size_t) address;
@@ -76,6 +76,22 @@ bool check_if_valid(int address) {
 //  return false;
 };
 
+//'  Object info
+//'
+//' A list with object information
+//'
+//' @param  address address of object
+//' @export
+//' @useDynLib fctbases
+//[[Rcpp::export]]
+Rcpp::List object_info(int address) {
+  
+  if (check_if_valid(address)) {
+    functionObject* fj = (functionObject*) address;
+    return fj->returnObject();
+  }
+  else stop("Object not found!");
+};
 
 
 

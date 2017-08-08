@@ -20,7 +20,6 @@
 //' @param range Left and right end points.
 //' @param nknots No. of knots including end points
 //' @export
-//' @useDynLib Functional
 // [[Rcpp::export]]
 int init_fourier_basis(arma::vec range, int f_order, bool j = false) {
 
