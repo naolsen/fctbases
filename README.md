@@ -11,3 +11,5 @@ In short what you can do is:
 * Calculate basis at desired time point(s)
 * Evaluate basis with coefficients at desired time point(s)
 * Both of the above, but with derivates
+
+Source package for installation can be found in Functional_0.1.2.tar.gz
