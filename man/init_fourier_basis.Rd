@@ -2,17 +2,13 @@
 % Please edit documentation in R/RcppExports.R
 \name{init_fourier_basis}
 \alias{init_fourier_basis}
-\title{Initialize Fourier basis}
+\title{Init fouriter basis}
 \usage{
-init_fourier_basis(range, f_order, j = FALSE)
+init_fourier_basis(range, order, trig_basis = FALSE)
 }
 \arguments{
-\item{range}{Left and right end points.}
-
-\item{spline_order}{order = degree + 1}
-
-\item{nknots}{No. of knots including end points}
+\item{trig_basis}{Currently ignored}
 }
 \description{
-Assign value to the global b-spline.
+Init fouriter basis
 }

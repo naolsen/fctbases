@@ -1,0 +1,92 @@
+
+// Masterfil. Kontroller det hele, også dig.
+
+/* Functional object
+ * (c) Niels Olsen, 2019
+ *
+ * Base class for functional objects, to be used in FDA or related settings.
+ * Renwed implementation.
+ *
+ * 
+ */
+
+#include <RcppArmadillo.h>
+#include <set>
+
+using namespace std;
+using namespace Rcpp;
+using namespace arma;
+
+static std::set<size_t> medlemmer; // Indeholder alle fct_class
+
+// Files 
+#include "function_class.h" // functionObject, the main thing. 
+//#include "evaluation.h"    // Evaluates the objects
+//#include "fourier_header.h"
+//#include "polynomium.h"
+//#include "bspline_header.h"
+
+
+
+
+
+//Checks if SEXP is a pointer to a valid function_class object
+inline bool check_if_valid(SEXP address) {
+  
+  if (TYPEOF(address) == EXTPTRSXP) {
+    
+    size_t st = (size_t) R_ExternalPtrAddr(address);
+    std::set<size_t>::iterator it = medlemmer.find(st);
+    if (it == medlemmer.end()) return false;
+    else return true;
+  }
+  else return false;
+};
+
+//Checks if pointer is to a valid function_class object
+inline bool check_if_valid_st(size_t st) {
+  cout << st;
+  std::set<size_t>::iterator it = medlemmer.find(st);
+  if (it == medlemmer.end()) return false;
+  else return true;
+}
+
+
+//' Removes a functional object from the list. 
+//'
+//' Returns true if member awas on the list, returns false otherwise. 
+//'
+//[[Rcpp::export]]
+bool removeMember(SEXP address) {
+  if (check_if_valid(address)) {
+    functionObject* ft = (functionObject*) R_ExternalPtrAddr(address);
+    
+    delete ft; // Objektet tager sig selv af stakken
+    
+    return true;
+  }
+  else return false;
+};
+
+//[[Rcpp::export]]
+Rcpp::IntegerVector getObjectsOnList() {
+  Rcpp::IntegerVector ret(0);
+  
+  // cout << "Medlemmer " << medlemmer.size() << "\n";
+  
+  std::set<size_t>::iterator it;
+  for (it=medlemmer.begin(); it!=medlemmer.end(); ++it)
+    ret.push_back((int) *it);
+  
+  return ret;
+};
+
+// More files
+#include "evaluation.h"    // Evaluates the objects
+#include "fourier_header.h"
+#include "polynomium.h"
+#include "bspline_header.h"
+
+
+
+

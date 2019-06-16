@@ -1,37 +1,37 @@
-#ifndef _f_h
-#define _f_h
+#ifndef _fourierh
+#define _fourierh
 
 
 #include <RcppArmadillo.h>
-//#include <Rcpp.h>
 #include "function_class.h"
-#include "fourier.h"
-//using namespace Rcpp;
-//using namespace arma;
+#include "fourier_basis.h"
 
+using namespace Rcpp;
+using namespace arma;
 
-
-
-//'  Initialize Fourier basis
 //'
-//' Assign value to the global b-spline.
+//' Init fouriter basis
+//' @param range
+//' @param order
+//' @param trig_basis Currently ignored.
 //'
-//' @param spline_order order = degree + 1
-//' @param range Left and right end points.
-//' @param nknots No. of knots including end points
-//' @export
-// [[Rcpp::export]]
-int init_fourier_basis(arma::vec range, int f_order, bool j = false) {
-
+//[[Rcpp::export]]
+SEXP init_fourier_basis(const arma::vec& range, int order, bool trig_basis = false) {
+  
+  if (order < 1) stop("Fourier order must be strictly positive!"); // Ændret 24-10-2017
   if (range.n_elem > 2) Rf_warning("Only the first and second elements of range will be used");
-  size_t spt = (size_t) f_order;
-
-
-//    fourierBasis fb(range(0), range(1), spt);
-
-    // cout << fb1;
-   fourierBasis *ff = new fourierBasis(range(0), range(1), spt);
-   return (size_t) ff;
-};
+  
+  if (trig_basis) {
+    fourierBasisT *ff = new fourierBasisT(range(0), range(1), order);
+    XPtr<fourierBasisT> ff_ptr(ff, true);
+    return ff_ptr;
+  }
+  else {
+    fourierBasis *ff = new fourierBasis(range(0), range(1), order);
+    XPtr<fourierBasis> ff_ptr(ff, true);
+    return ff_ptr;
+  }
+  
+}
 
 #endif

@@ -2,10 +2,10 @@
 % Please edit documentation in R/RcppExports.R
 \name{removeMember}
 \alias{removeMember}
-\title{Remove member}
+\title{Deletes a functional object from the list of available objects.}
 \usage{
 removeMember(address)
 }
 \description{
-Deletes specified member from the memory.
+Returns true if the member correctly was on the list, returns false otherwise.
 }
