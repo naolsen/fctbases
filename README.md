@@ -12,7 +12,9 @@ In short what you can do is:
 
 ## Usage
 Initialize a basis function by calling an appropiate initialization function, e.g.
+
 `knots <- 0:10 / 10`
+
 `f <- make.bspline.basis( knots, 4)`
 
 
@@ -20,7 +22,10 @@ Initialize a basis function by calling an appropiate initialization function, e.
 The resulting function takes three arguments: `t` is a vector of time points, `x` are optional coefficients to be multiplied, and `deriv`is whether the derivative in time should be evaluated or not (defaults to false). 
 
 `f(t)`: Returns a matrix of the basis function evaluted at time points `t`.
-`f(t, x)` Returns a vector of same length as t. Equal to `f(t) %*% x`
+
+`f(t, x)` Returns a vector of same length as `t`. Equal to `f(t) %*% x`
+
 `f(t, deriv = T)`: Returns d/dt f(t).
+
 `f(t, x, deriv = T)`: Returns d/dt `f(t) %*% x`.
 
