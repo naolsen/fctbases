@@ -2,8 +2,7 @@
 Efficient implementations of functional bases for use in functional data analysis or elsewhere.
 
 fct_bases implement some of the common linear functional bases such as B-splines and Fourier bases and stores these internally as C++ objects, accesssed from R as normal function. In this way there is no need for initializing an R object every time it is used in R. One simply initializes the desired basis, which is returned as an R function that one calls with desired time point and possibly coefficients. All calculations are implemented in C++,. By  moving some of computations to the time when objects are initialized, this speeds up some of the computations the even more.
-
-All functions take vector arguments.
+The package takes care of the internal bookkeeping of C++ objecgts and ensures the validity of these. 
 
 In short what you can do is:
 
@@ -11,4 +10,17 @@ In short what you can do is:
 * Evaluate basis with coefficients at desired time point(s)
 * Both of the above, but with derivates
 
+## Usage
+Initialize a basis function by calling an appropiate initialization function, e.g.
+`knots <- 0:10 / 10`
+`f <- make.bspline.basis( knots, 4)`
+
+
+
+The resulting function takes three arguments: `t` is a vector of time points, `x` are optional coefficients to be multiplied, and `deriv`is whether the derivative in time should be evaluated or not (defaults to false). 
+
+`f(t)`: Returns a matrix of the basis function evaluted at time points `t`.
+`f(t, x)` Returns a vector of same length as t. Equal to `f(t) %*% x`
+`f(t, deriv = T)`: Returns d/dt f(t).
+`f(t, x, deriv = T)`: Returns d/dt `f(t) %*% x`.
 
