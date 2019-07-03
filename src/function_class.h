@@ -31,7 +31,9 @@ public:
     return ud.t();
   };
   
-  virtual double eval_fct(double x, const arma::vec& coefs) = 0;
+  virtual double eval_fct(double x, const arma::vec& coefs) {
+    return dot(eval_coefs(x), coefs);
+  };
   
   // Overskriv gerne
   virtual arma::vec eval_fct(const arma::vec& x, const arma::vec& coefs) {

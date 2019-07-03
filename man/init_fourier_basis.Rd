@@ -7,7 +7,7 @@
 init_fourier_basis(range, order, trig_basis = FALSE)
 }
 \arguments{
-\item{trig_basis}{Currently ignored}
+\item{trig_basis}{Currently ignored.}
 }
 \description{
 Init fouriter basis

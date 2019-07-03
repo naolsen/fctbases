@@ -66,7 +66,7 @@ make.pol.basis <- function(order,  mode = c("function", "pointer", "f_object"), 
 #' @export
 #'
 make.bspline.basis <- function(knots, order = 4) {
-  is.unsorted(knots)
+
   deg <- order - 1
   basis <- init_bspline(order, c(rep(knots[1], deg), knots))
   f <- function(t, x, deriv = FALSE) {
@@ -82,4 +82,34 @@ make.bspline.basis <- function(knots, order = 4) {
   class(f) <- "fctbasis"
   f
 }
+
+basis.to.function <- function(basis) {
+  f <- function(t, x, deriv = FALSE) {
+    if (m <- missing(x)) {
+      if (deriv) cpp_eval_D(basis, t) 
+      else cpp_eval_0(basis, t)
+    }
+    else {
+      if (deriv) cpp_eval_Dcoefs(basis, t, x)
+      else cpp_eval_coefs(basis, t, x)
+    }
+  }
+  class(f) <- "fctbasis"
+  f
+}
+
+#' 'Standard' B-spline basis
+#'
+#' @param range End points of spline
+#' @param intervals Number of intervals
+#' 
+#' @description This initializes a bspline of order 4 with uniformly places knots. df = intervals + 3. 
+#'
+#' @return function
+#' @export
+#'
+make.std.bspline.basis <- function(range, intervals) {
+  basis.to.function(init_bspline_u4(range[1], range[2], intervals))
+}
+
 

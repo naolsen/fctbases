@@ -4,7 +4,8 @@
 \alias{make.pol.basis}
 \title{Make polynomial basis}
 \usage{
-make.pol.basis(order, mode = c("function", "pointer", "f_object"))
+make.pol.basis(order, mode = c("function", "pointer", "f_object"),
+  ty = F)
 }
 \arguments{
 \item{order}{Order of polynomial ( = degree + 1)}

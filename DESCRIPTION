@@ -1,12 +1,12 @@
 Package: fctbases
 Type: Package
 Title: Functional bases
-Version: 0.8
+Version: 0.8.1
 Date: 2019-06-11
 Author: Niels Olsen
-Maintainer: Niels Olsen niels.olsen@math.ku.dk
+Maintainer: Niels Olsen <niels.olsen@math.ku.dk>
 Description: Easy-to-use, very fast implementations of various functional bases
-License: GPL-3.0
+License: GPL-3
 Imports: Rcpp (>= 0.12.19)
 LinkingTo: Rcpp, RcppArmadillo
 RoxygenNote: 6.1.1

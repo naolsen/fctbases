@@ -39,6 +39,19 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// init_bspline_u4
+SEXP init_bspline_u4(double e_left, double e_right, int n_intervals);
+RcppExport SEXP _fctbases_init_bspline_u4(SEXP e_leftSEXP, SEXP e_rightSEXP, SEXP n_intervalsSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< double >::type e_left(e_leftSEXP);
+    Rcpp::traits::input_parameter< double >::type e_right(e_rightSEXP);
+    Rcpp::traits::input_parameter< int >::type n_intervals(n_intervalsSEXP);
+    rcpp_result_gen = Rcpp::wrap(init_bspline_u4(e_left, e_right, n_intervals));
+    return rcpp_result_gen;
+END_RCPP
+}
 // cpp_eval_coefs
 arma::vec cpp_eval_coefs(SEXP address, const arma::vec& x, const arma::vec& coefs, bool check_valid);
 RcppExport SEXP _fctbases_cpp_eval_coefs(SEXP addressSEXP, SEXP xSEXP, SEXP coefsSEXP, SEXP check_validSEXP) {
@@ -123,6 +136,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_fctbases_removeMember", (DL_FUNC) &_fctbases_removeMember, 1},
     {"_fctbases_getObjectsOnList", (DL_FUNC) &_fctbases_getObjectsOnList, 0},
     {"_fctbases_init_bspline", (DL_FUNC) &_fctbases_init_bspline, 2},
+    {"_fctbases_init_bspline_u4", (DL_FUNC) &_fctbases_init_bspline_u4, 3},
     {"_fctbases_cpp_eval_coefs", (DL_FUNC) &_fctbases_cpp_eval_coefs, 4},
     {"_fctbases_cpp_eval_0", (DL_FUNC) &_fctbases_cpp_eval_0, 3},
     {"_fctbases_cpp_eval_Dcoefs", (DL_FUNC) &_fctbases_cpp_eval_Dcoefs, 4},

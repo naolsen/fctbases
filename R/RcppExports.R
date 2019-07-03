@@ -17,6 +17,10 @@ init_bspline <- function(spline_order, spline_knots) {
     .Call(`_fctbases_init_bspline`, spline_order, spline_knots)
 }
 
+init_bspline_u4 <- function(e_left, e_right, n_intervals) {
+    .Call(`_fctbases_init_bspline_u4`, e_left, e_right, n_intervals)
+}
+
 cpp_eval_coefs <- function(address, x, coefs, check_valid = TRUE) {
     .Call(`_fctbases_cpp_eval_coefs`, address, x, coefs, check_valid)
 }

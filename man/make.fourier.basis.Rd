@@ -5,7 +5,7 @@
 \title{Make fourier basis}
 \usage{
 make.fourier.basis(range, order, df, mode = c("function", "pointer",
-  "f_object"), use_trig = FALSE)
+  "f_object"), use.trig.id = FALSE)
 }
 \arguments{
 \item{range}{Left and right end points.}
