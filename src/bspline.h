@@ -361,7 +361,7 @@ public:
   
   arma::vec eval_coefs(double x) {
     vec ret = zeros<vec>(n_basis);
-    
+     
     
     const int i = getIndexOf(x)-1;
     if (i < 0) {
@@ -569,7 +569,7 @@ public:
           (knots[i+1] - x)*ret(1)*inv_length;
         ret(0) = (knots[i+1] - x)*ret(0)*inv_length2;
         break;
-      }
+      } 
       switch(bcase3) {
       case -2: 
         ret(3) = (x - knots[0])*ret(2)*inv_length3;
@@ -882,7 +882,7 @@ public:
 };
 
 #endif
-  double eval_deriv(double x, const arma::vec& coefs) {
+ double eval_deriv(double x, const arma::vec& coefs) {
     
     if (n_basis != coefs.n_elem) stop("Coeffienct vector must have same length as number of bases");
     
