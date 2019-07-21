@@ -9,6 +9,7 @@
 #' @param range Left and right end points.
 #' @param mode Not used
 #' @param df Not used
+#' @param use.trig.id Use trigonometrical identities with this function?
 #' 
 #' @details The number of base elements is 2 * order + 1.
 #'
@@ -19,7 +20,7 @@ make.fourier.basis <- function(range, order, df, mode = c("function", "pointer",
                                use.trig.id = FALSE) {
   basis <- init_fourier_basis(range, order, use.trig.id)
   f <- function(t, x, deriv = FALSE) {
-    if (m <- missing(x)) {
+    if (missing(x)) {
       if (deriv) cpp_eval_D(basis, t) 
       else cpp_eval_0(basis, t)
     }
@@ -68,24 +69,12 @@ make.pol.basis <- function(order,  mode = c("function", "pointer", "f_object"), 
 make.bspline.basis <- function(knots, order = 4) {
 
   deg <- order - 1
-  basis <- init_bspline(order, c(rep(knots[1], deg), knots))
-  f <- function(t, x, deriv = FALSE) {
-    if (m <- missing(x)) {
-      if (deriv) cpp_eval_D(basis, t) 
-      else cpp_eval_0(basis, t)
-    }
-    else {
-      if (deriv) cpp_eval_Dcoefs(basis, t, x)
-      else cpp_eval_coefs(basis, t, x)
-    }
-  }
-  class(f) <- "fctbasis"
-  f
+  basis.to.function(init_bspline(order, c(rep(knots[1], deg), knots)))
 }
 
 basis.to.function <- function(basis) {
   f <- function(t, x, deriv = FALSE) {
-    if (m <- missing(x)) {
+    if (missing(x)) {
       if (deriv) cpp_eval_D(basis, t) 
       else cpp_eval_0(basis, t)
     }
@@ -108,7 +97,7 @@ basis.to.function <- function(basis) {
 #' @return function
 #' @export
 #'
-make.std.bspline.basis <- function(range, intervals) {
+make.std.bspline.basis <- function(range = c(0,1), intervals) {
   basis.to.function(init_bspline_u4(range[1], range[2], intervals))
 }
 

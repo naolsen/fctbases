@@ -37,12 +37,6 @@ cpp_eval_D <- function(address, x, check_valid = TRUE) {
     .Call(`_fctbases_cpp_eval_D`, address, x, check_valid)
 }
 
-#'
-#' Init fouriter basis
-#' @param range
-#' @param order
-#' @param trig_basis Currently ignored.
-#'
 init_fourier_basis <- function(range, order, trig_basis = FALSE) {
     .Call(`_fctbases_init_fourier_basis`, range, order, trig_basis)
 }

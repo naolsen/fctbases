@@ -2,6 +2,7 @@
 
 if (F) {
   library(fctbases)
+  library(microbenchmark)
   
   f0 <- function(x) {
     y <- outer(x * (2*pi), 1:15)

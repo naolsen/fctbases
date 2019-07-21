@@ -5,3 +5,5 @@ Version 0.1.4: All functions now use pass-by-reference.
 Version 0.8: Major overhaul and re-implementation. Everything is much better, more easy and more correctly done. 
 
 Version 0.8.1: Some improvements and bug fixes. Implementation of 'standard' b-spline basis.
+
+Version 0.8.1: More improvements. Functional bases using trigonometrical identities.

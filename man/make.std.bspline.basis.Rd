@@ -4,7 +4,7 @@
 \alias{make.std.bspline.basis}
 \title{'Standard' B-spline basis}
 \usage{
-make.std.bspline.basis(range, intervals)
+make.std.bspline.basis(range = c(0, 1), intervals)
 }
 \arguments{
 \item{range}{End points of spline}

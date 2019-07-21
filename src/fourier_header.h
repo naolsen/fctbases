@@ -9,12 +9,7 @@
 using namespace Rcpp;
 using namespace arma;
 
-//'
-//' Init fouriter basis
-//' @param range
-//' @param order
-//' @param trig_basis Currently ignored.
-//'
+
 //[[Rcpp::export]]
 SEXP init_fourier_basis(const arma::vec& range, int order, bool trig_basis = false) {
   
@@ -22,8 +17,8 @@ SEXP init_fourier_basis(const arma::vec& range, int order, bool trig_basis = fal
   if (range.n_elem > 2) Rf_warning("Only the first and second elements of range will be used");
   
   if (trig_basis) {
-    fourierBasisT *ff = new fourierBasisT(range(0), range(1), order);
-    XPtr<fourierBasisT> ff_ptr(ff, true);
+    fourier_basis_trig *ff = new fourier_basis_trig(range(0), range(1), order);
+    XPtr<fourier_basis_trig> ff_ptr(ff, true);
     return ff_ptr;
   }
   else {

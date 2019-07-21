@@ -13,6 +13,8 @@ make.fourier.basis(range, order, df, mode = c("function", "pointer",
 \item{df}{Not used}
 
 \item{mode}{Not used}
+
+\item{use.trig.id}{Use trigonometrical identities with this function?}
 }
 \value{
 Function
