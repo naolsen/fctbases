@@ -793,7 +793,6 @@ public:
   };
   
   
-  
   // Evaluaterer d/dx B(x) ganget på koefficienter
   double eval_deriv(double x, const arma::vec& coefs) {
     
@@ -880,8 +879,6 @@ public:
   
   
 };
-
-#endif
  double eval_deriv(double x, const arma::vec& coefs) {
     
     if (n_basis != coefs.n_elem) stop("Coeffienct vector must have same length as number of bases");
@@ -962,33 +959,6 @@ public:
     
     return 3*(ret[0]*coefs(i) + ret[1]*coefs(++i) + 
       ret[2]*coefs(++i) +ret[3]*coefs(++i));
-    
-    };
-  
-  
-};
-
-#endif
-    
-    };
-  
-  
-};
-
-#endif 
-    };
-  
-  
-};
-
-#endif +ret[3]*coefs(++i));
-    
-    };
-  
-  
-};
-
-#endif);
     
     };
   
