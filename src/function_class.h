@@ -47,7 +47,7 @@ public:
   virtual arma::vec eval_deriv_coefs(double x) = 0;
   virtual arma::mat eval_deriv_coefs(const arma::vec& x) {
     
-    mat ud = zeros<mat>(n_basis, x.n_elem);
+    mat ud(n_basis, x.n_elem);
     for (unsigned int kk = 0; kk < x.n_elem; kk++) ud.col(kk) =  eval_deriv_coefs(x(kk));
     return ud.t();
   };
@@ -56,7 +56,7 @@ public:
   virtual arma::vec eval_deriv(const arma::vec& x, const arma::vec& coefs) {
     if (n_basis != coefs.n_elem) throw std::invalid_argument("Coeffienct vector must have same length as number of bases");
     
-    vec ud = zeros<vec>(x.n_elem);
+    vec ud(x.n_elem);
     for (unsigned int kk = 0; kk < x.n_elem; kk++) ud(kk) = eval_deriv(x(kk), coefs);
     
     return ud;

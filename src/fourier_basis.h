@@ -193,8 +193,8 @@ public:
     double si = ret(1) = sin(z);
     double co = ret(2) = cos(z);
     if (order > 1) for (int i=1; i < order; i++) {
-      ret(2*i+1) = si*ret(2*i) + co*ret(2*i-1);
-      ret(2*i+2) = co*ret(2*i) - si*ret(2*i-1);
+      ret(2*i+1) = si*ret(2*i) + co*ret(2*i-1); // sinus
+      ret(2*i+2) = co*ret(2*i) - si*ret(2*i-1); // cosinus
     }
     return ret;
   };
@@ -242,7 +242,76 @@ public:
     return ud;
     
   };
-  
+
+    arma::vec eval_deriv_coefs(double x) {
+    double z = (x-left_end) * inv_length;
+
+    vec ret(n_basis);
+
+    ret(0) = 0;
+
+    double co = ret(1) = cos(z);
+    double coo = co;
+    ret(1) = inv_length * co;
+    double si = sin(z);
+    double sii = si;
+    ret(2) = - inv_length * si;
+    for (int i=2; i <= order; i++) {
+
+      double si0 = sii;
+      sii = si*coo + co*sii;
+      coo = coo*co - si*si0;
+
+
+      ret(2*i-1) = coo* inv_length * i;
+      ret(2*i) = -sii* inv_length * i;
+    }
+
+    return ret;
+  };
+
+  arma::mat eval_deriv_coefs(const arma::vec& x) {
+    mat ud(n_basis, x.n_elem);
+
+    for (unsigned int kk = 0; kk < x.n_elem; kk++) ud.col(kk) =  eval_deriv_coefs(x(kk));
+    return ud.t();
+  };
+
+  double eval_deriv(double x, const arma::vec& coefs) {
+
+    if (n_basis != coefs.n_elem) throw std::invalid_argument("Coeffienct vector must have same length as number of bases");
+
+    double z = (x-left_end) * inv_length;
+    double ud = 0;
+
+    double co = cos(z);
+    double coo = co;
+    ud += inv_length*coo*coefs(1);
+    double si = sin(z);
+    double sii = si;
+    ud -= inv_length*sii*coefs(2);
+
+    for (int i=2; i<=order; i++) {
+      double si0 = sii;
+      sii = si*coo + co*sii;
+      ud -= i*inv_length*sii*coefs(2*i);
+      coo = coo*co - si*si0;
+      ud += i*inv_length*coo*coefs(2*i-1);
+    }
+
+    return ud;
+  }
+
+
+  arma::vec eval_deriv(const arma::vec& x, const arma::vec& coefs) {
+    if (n_basis != coefs.n_elem) throw std::invalid_argument("Coeffienct vector must have same length as number of bases");
+
+    vec ud(x.n_elem);
+    for (unsigned int kk = 0; kk < x.n_elem; kk++) ud(kk) = eval_deriv(x(kk), coefs);
+
+    return ud;
+  };
+
   
   
   

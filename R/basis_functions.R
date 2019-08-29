@@ -33,29 +33,21 @@ make.fourier.basis <- function(range, order, df, mode = c("function", "pointer",
   f
 }
 
+
 #' Make polynomial basis
 #'
-#' @param order Order of polynomial ( = degree + 1)
+#' @param order Order of polynomial (= degree + 1)
 #' @param mode Ignored.
+#'
+#' @details Polynomial basis (1, x, x^2, x^3, ..., x^n)
 #'
 #' @return Function
 #' @export
 #'
 make.pol.basis <- function(order,  mode = c("function", "pointer", "f_object"), ty = F) {
-  
+
   basis <- init_pol_basis(order, ty)
-  f <- function(t, x, deriv = FALSE) {
-    if (m <- missing(x)) {
-      if (deriv) cpp_eval_D(basis, t) 
-      else cpp_eval_0(basis, t)
-    }
-    else {
-      if (deriv) cpp_eval_Dcoefs(basis, t, x)
-      else cpp_eval_coefs(basis, t, x)
-    }
-  }
-  class(f) <- "fctbasis"
-  f
+  basis.to.function(basis)
 }
 
 #' Make b-spline basis

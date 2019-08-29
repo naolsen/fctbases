@@ -42,7 +42,6 @@ public:
   const double x_min;// = knots(0);
   const double x_max; // = knots(knots.n_elem - 1);
   const int n_intervals; // = length(knots) - 1
-  //const size_t n_basis;
   
 private:
   const vec diffs;
@@ -120,9 +119,8 @@ public:
         
         ud(zz,i) = 1;
         
-        if (deg > 0) {
           for (int j=1; j < order; j++) {
-            
+
             for (int k = i-j; k < i; k++) {
               double dd = tknots(k+j) - tknots(k);
               if (dd) ud(zz, k) = (xx- knots(k))/dd * ud(zz,k) +
@@ -134,9 +132,8 @@ public:
             // afsluttende ..
             ud(zz, i) = (xx - tknots(i)) / (tknots(i+j) - tknots(i))* ud(zz,i);
           }
-        } 
-        
-      }}
+        }
+      }
       return ud;
       
     }
@@ -192,25 +189,25 @@ public:
       }
       else {
         vec ret = zeros<vec>(order);
-        
+
         ret(deg) = 1;
-        
+
         if (deg > 0) {
           for (int j=1; j < order; j++) {
             for (int kk = -j; kk < 0; kk++) {
               int k = kk+i;
-              
+
               double dd = tknots(k+j) - tknots(k);
               if (dd) ret(deg+kk) =(xx - tknots(k))/ dd * ret(deg+kk) +
                 ( tknots(k+j+1) - xx)/( tknots(k+j+1) - tknots(k+1))* ret(deg+kk+1);
               else ret(deg+kk) = (tknots(k+j+1) - xx)/( tknots(k+j+1) - tknots(k+1))* ret(deg+kk+1);
             }
-            //int k = i;
+
             ret(deg) =(xx - tknots(i))/( tknots(i+j) - tknots(i))* ret(deg);
           }
-        } 
+        }
         for (int j = 0; j < order; j++) ud[zz] += ret(deg-j) * coefs(i-j);
-        
+
       }}
       return ud;
       };
