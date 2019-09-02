@@ -14,13 +14,18 @@ In short what you can do is:
 Initialize a basis function by calling an appropiate initialization function, e.g.
 
 `knots <- 0:10 / 10`
+
 `f <- make.bspline.basis(knots, order = 4)` (or just `f <- make.bspline.basis(knots)`
+
 will return a bspline of order 4 (standard) with equidistant knots from 0 to 1.
 
 `endpoints <- c(0, 1)`
+
 `f <-  make.fourier.basis(endpoints, 10)`
+
 will return a Fourier basis with harmonics up to order 10 (that is, 21 degress of freedom) anchored in 0 and 1. 
 
+----
 
 The resulting function takes three arguments: `t` is a vector of time points, `x` are optional coefficients to be multiplied, and `deriv` is whether the derivative in time should be evaluated or not (defaults to false). All fctbases functions follow this pattern. 
 
