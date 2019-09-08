@@ -113,7 +113,7 @@ public:
 
 //Initializer
 //[[Rcpp::export]]
-SEXP init_pol_basis(int pol_order, bool ptype = false) {
+SEXP init_pol_basis(int pol_order) {
 
   polynomial *pp = new polynomial(pol_order);
   XPtr<polynomial> pp_ptr(pp, true);
