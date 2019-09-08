@@ -45,7 +45,7 @@ make.fourier.basis <- function(range, order, use.trig.id = FALSE) {
 #'
 make.pol.basis <- function(order) {
 
-  basis <- init_pol_basis(order, ty)
+  basis <- init_pol_basis(order)
   basis.to.function(basis)
 }
 

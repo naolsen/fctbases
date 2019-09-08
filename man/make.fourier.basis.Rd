@@ -4,15 +4,12 @@
 \alias{make.fourier.basis}
 \title{Make fourier basis}
 \usage{
-make.fourier.basis(range, order, df, mode = c("function", "pointer",
-  "f_object"), use.trig.id = FALSE)
+make.fourier.basis(range, order, use.trig.id = FALSE)
 }
 \arguments{
 \item{range}{Left and right end points.}
 
-\item{df}{Not used}
-
-\item{mode}{Not used}
+\item{order}{Order of harmonics}
 
 \item{use.trig.id}{Use trigonometrical identities with this function?}
 }
@@ -23,5 +20,7 @@ Function
 Make fourier basis
 }
 \details{
-The number of base elements is 2 * order + 1.
+The number of basis elements (degrees of freedom) is 2 * order + 1.
+
+The basis functions are  [1, sin(x), cos(x), sin(2x), cos(2x), ..., sin(nx), cos(nx) ]
 }

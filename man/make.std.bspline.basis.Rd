@@ -15,5 +15,5 @@ make.std.bspline.basis(range = c(0, 1), intervals)
 function
 }
 \description{
-This initializes a bspline of order 4 with uniformly places knots. df = intervals + 3.
+This initializes a bspline of order 4 with uniformly placed knots. df = intervals + 3.
 }

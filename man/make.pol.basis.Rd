@@ -4,17 +4,17 @@
 \alias{make.pol.basis}
 \title{Make polynomial basis}
 \usage{
-make.pol.basis(order, mode = c("function", "pointer", "f_object"),
-  ty = F)
+make.pol.basis(order)
 }
 \arguments{
-\item{order}{Order of polynomial ( = degree + 1)}
-
-\item{mode}{Ignored.}
+\item{order}{Order of polynomial (= degree + 1)}
 }
 \value{
 Function
 }
 \description{
 Make polynomial basis
+}
+\details{
+Polynomial basis (1, x, x^2, x^3, ..., x^n)
 }
