@@ -111,99 +111,10 @@ public:
   
 };    
 
-class pol2 : public polynomial {
-  
-public:
-  
-  //const int deg; // grad af polynomium.
-  
-  // konstruktor
-  pol2(size_t pol_order) : polynomial(pol_order)
-  {
-    if (deg < 1) stop("Order must be strictly positive!"); 
-  }
-  
-  arma::vec eval_coefs(double x) {
-    
-    vec ret = vec(n_basis);
-    double x0 = ret(0) = 1.0;
-    for (unsigned int i=1; i< n_basis; i++) {
-      ret(i) = x0 *= x;
-    }
-    return ret;
-  }
-  
-  arma::mat eval_coefs(const arma::vec& x) {
-    
-    mat ud(x.n_elem, n_basis);
-    
-    ud.col(0).fill(1);
-    mat::const_iterator pfor = ud.begin();
-    mat::const_iterator pslut = ud.end();
-    vec::const_iterator x_start = x.begin();
-    vec::const_iterator x_it = x_start;
-    vec::const_iterator x_end = x.end();
-    
-    
-    for (mat::iterator pefter = ud.begin_col(1); pefter != pslut; pefter++) {
-      *pefter = (*x_it) * (*pfor);
-      pfor++;
-      if (++x_it == x_end) x_it = x_start;
-    }
-    return ud;
-  }
-  
-
-
-  // Evaluerer d/dx B(x)
-  arma::vec eval_deriv_coefs(double x)  {
-    vec ret = vec(n_basis);
-    double x0 = 1.0;
-    ret[0] = 0.0;
-    for (unsigned int i=1; i< n_basis; i++) {
-      ret[i] = i*x0;
-      x0 *= x;
-    }
-    return ret;
-  };
-  
-  
-  // Evaluaterer d/dx p(x) ganget på koefficienter
-  double eval_deriv(double x, const arma::vec& coefs) {
-    if (n_basis != coefs.n_elem) stop("Coeffienct vector must have same length as number of bases");
-    
-    double ud = 0.0;
-    double x0 = 1.0;
-    
-    for (unsigned int i=1; i< n_basis; i++) {
-      ud += i*x0* coefs(i);
-      x0 *= x;
-    }
-    return ud;
-    
-  }
-  
-  arma::vec eval_deriv(const arma::vec& x, const arma::vec& coefs) {
-    if (n_basis != coefs.n_elem) stop("Coeffienct vector must have same length as number of bases");
-    
-    vec ud = zeros<vec>(x.n_elem);
-    for (unsigned int kk = 0; kk < x.n_elem; kk++) ud(kk) = eval_deriv(x(kk), coefs);
-    
-    return ud;
-  }
-};    
-
-
 //Initializer
 //[[Rcpp::export]]
 SEXP init_pol_basis(int pol_order, bool ptype = false) {
-  
-  if(ptype) {
-    pol2 *pp = new pol2(pol_order);
-    XPtr<pol2> pp_ptr(pp, true);
-    return pp_ptr;
-  }
-  
+
   polynomial *pp = new polynomial(pol_order);
   XPtr<polynomial> pp_ptr(pp, true);
   return pp_ptr;

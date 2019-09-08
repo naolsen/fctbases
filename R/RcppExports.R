@@ -41,7 +41,7 @@ init_fourier_basis <- function(range, order, trig_basis = FALSE) {
     .Call(`_fctbases_init_fourier_basis`, range, order, trig_basis)
 }
 
-init_pol_basis <- function(pol_order, ptype = FALSE) {
-    .Call(`_fctbases_init_pol_basis`, pol_order, ptype)
+init_pol_basis <- function(pol_order) {
+    .Call(`_fctbases_init_pol_basis`, pol_order)
 }
 

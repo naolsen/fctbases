@@ -171,15 +171,15 @@ public:
 };
 
 
-/* Denne klasse bruger trigonometriske identiteter;
+/* This class uses trigonometrical identities:
  * cos ((k+1)x) =  cos(kx)*cos(x) - sin(kx)*sin(x)
  * sin ((k+1)x) = sin(kx)*cos(x) + cos(kx)*sin(x)
  */
 
 class fourier_basis_trig : public fourierBasis {
   
-    
-    // konstructor
+
+    // constructor
 public:
   fourier_basis_trig(double left, double right, int f_order): 
   fourierBasis(left, right, f_order)  {}
@@ -307,12 +307,32 @@ public:
     if (n_basis != coefs.n_elem) throw std::invalid_argument("Coeffienct vector must have same length as number of bases");
 
     vec ud(x.n_elem);
-    for (unsigned int kk = 0; kk < x.n_elem; kk++) ud(kk) = eval_deriv(x(kk), coefs);
 
+    for (unsigned int kk = 0; kk < x.n_elem; kk++) {
+      double z = (x(kk)-left_end) * inv_length;
+      vec::const_iterator it = coefs.begin();
+
+      double co = cos(z);
+      double coo = co;
+      ud[kk] = inv_length*coo*(*(++it));
+      double si = sin(z);
+      double sii = si;
+      ud[kk] -= inv_length*sii*(*(++it));
+
+      for (int i=2; i<=order; i++) {
+        double co0 = coo;
+        double si0 = sii;
+
+        coo = co0*co - si*sii;
+        ud[kk] += i*inv_length*coo*(*(++it));
+
+        sii = si*co0 + co*sii;
+        ud[kk] -= i*inv_length*sii*(*(++it));
+      }
+    }
     return ud;
   };
 
-  
   
   
 };

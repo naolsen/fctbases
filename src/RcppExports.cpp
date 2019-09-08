@@ -120,14 +120,13 @@ BEGIN_RCPP
 END_RCPP
 }
 // init_pol_basis
-SEXP init_pol_basis(int pol_order, bool ptype);
-RcppExport SEXP _fctbases_init_pol_basis(SEXP pol_orderSEXP, SEXP ptypeSEXP) {
+SEXP init_pol_basis(int pol_order);
+RcppExport SEXP _fctbases_init_pol_basis(SEXP pol_orderSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< int >::type pol_order(pol_orderSEXP);
-    Rcpp::traits::input_parameter< bool >::type ptype(ptypeSEXP);
-    rcpp_result_gen = Rcpp::wrap(init_pol_basis(pol_order, ptype));
+    rcpp_result_gen = Rcpp::wrap(init_pol_basis(pol_order));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -142,7 +141,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_fctbases_cpp_eval_Dcoefs", (DL_FUNC) &_fctbases_cpp_eval_Dcoefs, 4},
     {"_fctbases_cpp_eval_D", (DL_FUNC) &_fctbases_cpp_eval_D, 3},
     {"_fctbases_init_fourier_basis", (DL_FUNC) &_fctbases_init_fourier_basis, 3},
-    {"_fctbases_init_pol_basis", (DL_FUNC) &_fctbases_init_pol_basis, 2},
+    {"_fctbases_init_pol_basis", (DL_FUNC) &_fctbases_init_pol_basis, 1},
     {NULL, NULL, 0}
 };
 
