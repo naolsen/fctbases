@@ -873,9 +873,7 @@ public:
       ret[2]*coefs(++i) +ret[3]*coefs(++i));
     
     };
-  
-  
-};
+
  double eval_deriv(double x, const arma::vec& coefs) {
     
     if (n_basis != coefs.n_elem) stop("Coeffienct vector must have same length as number of bases");
