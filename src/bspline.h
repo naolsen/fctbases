@@ -445,10 +445,7 @@ public:
         }
         else {
           
-          // -1 hvis første interval, +1 hvis sidste interval, 0 ellers.
-          //int bcase2 = -(i == 0) + (i == n_intervals-1);
-          
-          // -2 hivs første interval ,-1 hvis næste, 0,1,2.
+          // -2 hvis første interval ,-1 hvis næste, 0,1,2.
           int bcase3 = -(i < 2) - (i == 0) + (i == n_intervals-1) + (i > n_intervals - 3);
           
           
@@ -791,89 +788,6 @@ public:
   
   
   // Evaluaterer d/dx B(x) ganget på koefficienter
-  double eval_deriv(double x, const arma::vec& coefs) {
-    
-    if (n_basis != coefs.n_elem) stop("Coeffienct vector must have same length as number of bases");
-    
-    vec ret = zeros<vec>(4);
-    int i = getIndexOf(x)-1;
-    
-    
-    if (i < 0) {
-      Rf_warning("Outside of range");
-      return 0;
-    }
-    else {
-      // -1 hvis første interval, +1 hvis sidste interval, 0 ellers.
-      int bcase2 = -(i == 0) + (i == n_intervals-1);
-      
-      // -2,-1,0,1,2.
-      int bcase3 = -(i < 2) - (i == 0) + (i == n_intervals-1) + (i > n_intervals - 3);
-      
-      ret(0) = 1;
-      
-      ret(1) = (x-knots[i])*ret(0)*inv_length;
-      ret(0) = (knots[i+1] - x)*ret(0)*inv_length;
-      
-      switch(bcase2) {
-      case -1: 
-        ret(2) = (x - knots[0])*ret(1)*inv_length2;
-        ret(1) = (x - knots[0])*ret(0)*inv_length + (knots[2] - x)*ret(1)*inv_length2;
-        ret(0) = (knots[1] - x)*ret(0)*inv_length;
-        break;
-      case 0:
-        ret(2) = (x - knots[i])*ret(1)*inv_length2;
-        ret(1) = ((x - knots[i-1])*ret(0)+(knots[i+2] - x)*ret(1))*inv_length2;
-        ret(0) = (knots[i+1] - x)*ret(0)*inv_length2;
-        break;
-      case 1: 
-        ret(2) = (x - knots[i])*ret(1)*inv_length;
-        ret(1) = (x - knots[i-1])*ret(0)*inv_length2 + 
-          (knots[i+1] - x)*ret(1)*inv_length;
-        ret(0) = (knots[i+1] - x)*ret(0)*inv_length2;
-        break;
-      }
-      
-      switch(bcase3) {
-      case -2: 
-        ret(3) = ret(2)*inv_length3; // Samme som inv_length?
-        ret(2) = (ret(1)*inv_length2 - ret(2)*inv_length3);
-        ret(1) = (ret(0)*inv_length - ret(1)*inv_length2);
-        ret(0) = -ret(0)*inv_length;
-        break;
-      case -1: 
-        ret(3) = ret(2)*inv_length3;
-        ret(2) = (ret(1) - ret(2))*inv_length3;
-        ret(1) = (ret(0)*inv_length2 - ret(1)*inv_length3);
-        ret(0) = -ret(0)*inv_length2;
-        break;
-      case 0:
-        ret(3) = ret(2)*inv_length3;
-        ret(2) = (ret(1) - ret(2))*inv_length3;
-        ret(1) = (ret(0) - ret(1))*inv_length3;
-        ret(0) = -ret(0)*inv_length3;
-        break;
-      case 1: 
-        ret(3) = ret(2)*inv_length2;
-        ret(2) = (ret(1)*inv_length3 - ret(2)*inv_length2);
-        ret(1) = (ret(0) - ret(1))*inv_length3;
-        ret(0) = -ret(0)*inv_length3;
-        break;
-      case 2: 
-        ret(3) = ret(2)*inv_length;
-        ret(2) = (ret(1)*inv_length2 - ret(2)*inv_length);
-        ret(1) = (ret(0)*inv_length3 - ret(1)*inv_length2);
-        ret(0) = -ret(0)*inv_length3;
-        break;
-      }
-      
-    }
-    
-    return 3*(ret[0]*coefs(i) + ret[1]*coefs(++i) + 
-      ret[2]*coefs(++i) +ret[3]*coefs(++i));
-    
-    };
-
  double eval_deriv(double x, const arma::vec& coefs) {
     
     if (n_basis != coefs.n_elem) stop("Coeffienct vector must have same length as number of bases");
