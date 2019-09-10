@@ -32,9 +32,10 @@ public:
     
     mat ud = mat(x.n_elem, n_basis);
     double x0;
-    for (unsigned int zz = 0; zz < x.n_elem; zz ++) {
+    rowvec ret = rowvec(n_basis);
+
+    for (unsigned int zz = 0; zz < x.n_elem; zz++) {
       double yy = x(zz);
-      rowvec ret = rowvec(n_basis);
       x0 = ret(0) = 1.0;
       for (unsigned int i=1; i< n_basis; i++) {
         ret(i) = x0 *= yy;
@@ -59,7 +60,7 @@ public:
   arma::vec eval_fct(const arma::vec& x, const arma::vec& coefs) { // kan måske forbedres, brug pointer til element.
     if (n_basis != coefs.n_elem) stop("Coeffienct vector must have same length as number of bases");
     
-    vec ud = zeros<vec>(x.n_elem);
+    vec ud = vec(x.n_elem);
     for (unsigned int kk = 0; kk < x.n_elem; kk++) ud(kk) = eval_fct(x(kk), coefs);
     
     return ud;
@@ -96,11 +97,12 @@ public:
   arma::vec eval_deriv(const arma::vec& x, const arma::vec& coefs) {
     if (n_basis != coefs.n_elem) stop("Coeffienct vector must have same length as number of bases");
     
-    vec ud = zeros<vec>(x.n_elem);
-    for (unsigned int kk = 0; kk < x.n_elem; kk++) ud(kk) = eval_deriv(x(kk), coefs);
+    vec ud = vec(x.n_elem);
+    for (unsigned int kk = 0; kk < x.n_elem; kk++) ud[kk] = eval_deriv(x[kk], coefs);
     
     return ud;
   };
+
   public: Rcpp::List returnObject() { 
     List ret;
     ret["n_basis"] = (int) n_basis;
