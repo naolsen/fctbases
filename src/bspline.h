@@ -357,168 +357,97 @@ private:
 public:
   
   arma::vec eval_coefs(double x) {
-    vec ret = zeros<vec>(n_basis);
-     
-    
-    const int i = getIndexOf(x)-1;
+    vec ud = zeros<vec>(n_basis);
+
+    int i = getIndexOf(x)-1;
     if (i < 0) {
       Rf_warning("Outside of range");
     }
     else {
-      // -1 hvis første interval, +1 hvis sidste interval, 0 ellers.
-     int bcase2 = -(i == 0) + (i == n_intervals-1);
-      
-    // -2,-1,0,1,2.
-    int bcase3 = -(i < 2) - (i == 0) + (i == n_intervals-1) + (i > n_intervals - 3);
-      
-      ret(i) = 1;
-      
-      ret(i+1) = (x-knots[i])*ret(i)*inv_length;
-      ret(i) = (knots[i+1] - x)*ret(i)*inv_length;
-      
-      
-      switch(bcase2) {
-      case -1: 
-        ret(2) = (x - knots[0])*ret(1)*inv_length2;
-        ret(1) = (x - knots[0])*ret(0)*inv_length + (knots[2] - x)*ret(1)*inv_length2;
-        ret(0) = (knots[1] - x)*ret(0)*inv_length;
-        break;
-      case 0:
-        ret(i+2) = (x - knots[i])*ret(i+1)*inv_length2;
-        ret(i+1) = ((x - knots[i-1])*ret(i)+(knots[i+2] - x)*ret(i+1))*inv_length2;
-        ret(i) = (knots[i+1] - x)*ret(i)*inv_length2;
-        break;
-      case 1: 
-        ret(i+2) = (x - knots[i])*ret(i+1)*inv_length;
-        ret(i+1) = (x - knots[i-1])*ret(i)*inv_length2 + 
-                   (knots[i+1] - x)*ret(i+1)*inv_length;
-        ret(i) = (knots[i+1] - x)*ret(i)*inv_length2;
+
+      // -2 hvis første interval ,-1 hvis næste, 0,1 hvis næstsidsts, 2 hvis sidste.
+      int bcase3 = -(i < 2) - (i == 0) + (i == n_intervals-1) + (i > n_intervals - 3);
+
+
+      ud[i] = 1;
+
+      ud[i+1] = (x-knots[i])*ud(i)*inv_length;
+      ud[i] = (knots[i+1] - x)*ud(i)*inv_length;
+
+      switch(bcase3){
+      case -2:
+      {
+        ud[2] = (x - knots[0])* ud[1]*inv_length2;
+        ud[1] = (x - knots[0])* ud[0]*inv_length + (knots[2] - x)*ud[1]*inv_length2;
+        ud[0] = (knots[1] - x)*ud[0]*inv_length;
         break;
       }
-      switch(bcase3) {
-      case -2: 
-        ret(3) = (x - knots[0])*ret(2)*inv_length3;
-        ret(2) = (x - knots[0])*ret(1)*inv_length2+(knots[3] - x)*ret(2)*inv_length3;
-        ret(1) = (x - knots[0])*ret(0)*inv_length + (knots[2] - x)*ret(1)*inv_length2;
-        ret(0) = (knots[1] - x)*ret(0)*inv_length;
+      case -1:
+      case -0:
+      case 1:
+      {
+        ud[i+2] = (x - knots[i])*ud[i+1]*inv_length2;
+        ud[i+1] = ((x - knots[i-1])*ud[i]+(knots[i+2] -x)*ud[i+1])*inv_length2;
+        ud[i] = (knots[i+1] - x)*ud[i]*inv_length2;
         break;
-      case -1: 
-        ret(4) = (x - knots[1])*ret(3)*inv_length3;
-        ret(3) = ((x - knots[0])*ret(2)+(knots[4] - x)*ret(3))*inv_length3;
-        ret(2) = (x - knots[0])*ret(1)*inv_length2 + (knots[3] - x)*ret(2)*inv_length3;
-        ret(1) = (knots[2] - x)*ret(1)*inv_length2;
+      }
+      case 2:
+        ud[i+2] = (x - knots[i])*ud[i+1]*inv_length;
+        ud[i+1] = (x - knots[i-1])*ud[i]*inv_length2 +
+          (knots[i+1] - x)*ud[i+1]*inv_length;
+        ud[i] = (knots[i+1] - x)*ud[i]*inv_length2;
+        break;
+      }
+
+      switch(bcase3) {
+      case -2:
+      {
+
+        ud[3] = (x - knots[0]) * ud[2]*inv_length3;
+        ud[2] = (x - knots[0]) * ud[1]*inv_length2+(knots[3] - x)*ud[2]*inv_length3;
+        ud[1] = (x - knots[0]) * ud[0]*inv_length + (knots[2] - x)*ud[1]*inv_length2;
+        ud[0] = (knots[1] - x)*ud[0]*inv_length;
+        break;
+      }
+      case -1:
+
+        ud[4] = (x - knots[1])*ud[3]*inv_length3;
+        ud[3] = ((x - knots[0])*ud[2]+(knots[4] - x)*ud[3])*inv_length3;
+        ud[2] = (x - knots[0])*ud[1]*inv_length2 + (knots[3] - x)*ud[2]*inv_length3;
+        ud[1] = (knots[2] - x)*ud[1]*inv_length2;
         break;
       case 0:
-        ret(i+3) = (x - knots[i])*ret(i+2)*inv_length3;
-        ret(i+2) = ((x - knots[i-1])*ret(i+1)+(knots[i+3] - x)*ret(i+2))*inv_length3;
-        ret(i+1) = ((x - knots[i-2])*ret(i)+(knots[i+2] - x)*ret(i+1))*inv_length3;
-        ret(i) = (knots[i+1] - x)*ret(i)*inv_length3;
+
+        ud[i+3] = (x - knots[i])*ud[i+2]*inv_length3;
+        ud[i+2] = ((x - knots[i-1])*ud[i+1]+(knots[i+3] - x)*ud[i+2])*inv_length3;
+        ud[i+1] = ((x - knots[i-2])*ud[i]+(knots[i+2] - x)*ud[i+1])*inv_length3;
+        ud[i] = (knots[i+1] - x)*ud[i]*inv_length3;
         break;
-      case 1: 
-        ret(i+3) = (x - knots[i])*ret(i+2)*inv_length2;
-        ret(i+2) = (x - knots[i-1])*ret(i+1)*inv_length3 +
-                   (knots[i+2] - x)*ret(i+2)*inv_length2;
-        ret(i+1) = ((x - knots[i-2])*ret(i)+(knots[i+2] - x)*ret(i+1))*inv_length3;
-        ret(i) = (knots[i+1] - x)*ret(i)*inv_length3;
+      case 1:
+
+        ud[i+3] = (x - knots[i])*ud[i+2]*inv_length2;
+        ud[i+2] = (x - knots[i-1])*ud[i+1]*inv_length3 + (knots[i+2] - x)*ud[i+2]*inv_length2;
+        ud[i+1] = ((x - knots[i-2])*ud[i]+(knots[i+2] - x)*ud[i+1])*inv_length3;
+        ud[i] = (knots[i+1] - x)*ud[i]*inv_length3;
         break;
-      case 2: 
-        ret(i+3) = (x - knots[i])*ret(i+2)*inv_length;
-        ret(i+2) =  (x - knots[i-1])*ret(i+1)*inv_length2 +
-                    (knots[i+1] - x)*ret(i+2)*inv_length;
-        ret(i+1) = (x - knots[i-2])*ret(i)*inv_length3+(knots[i+1] - x)*ret(i+1)*inv_length2;
-        ret(i) = (knots[i+1] - x)*ret(i)*inv_length3;
+      case 2:
+
+        ud[i+3] = (x - knots[i])*ud[i+2]*inv_length;
+        ud[i+2] =  (x - knots[i-1])*ud[i+1]*inv_length2 + (knots[i+1] - x)*ud[i+2]*inv_length;
+        ud[i+1] = (x - knots[i-2])*ud[i]*inv_length3+(knots[i+1] - x)*ud[i+1]*inv_length2;
+        ud[i] = (knots[i+1] - x)*ud[i]*inv_length3;
         break;
       }
     }
-    return ret;
+    return ud;
   };
-  
+
   arma::mat eval_coefs(arma::vec x) {
-    
-      mat ud = zeros<mat>(n_basis, x.n_elem);
-      for (unsigned int zz = 0; zz < x.n_elem; zz ++) {
-        double xx = x[zz];
-        
-        int i = getIndexOf(xx)-1;
-        if (i < 0) {
-          Rf_warning("Outside of range");
-        }
-        else {
-          
-          // -2 hvis første interval ,-1 hvis næste, 0,1,2.
-          int bcase3 = -(i < 2) - (i == 0) + (i == n_intervals-1) + (i > n_intervals - 3);
-          
-          
-          ud(zz,i) = 1;
-          
-          ud(zz,i+1) = (xx-knots[i])*ud(zz,i)*inv_length;
-          ud(zz,i) = (knots[i+1] - xx)*ud(zz,i)*inv_length;
-          
-          
-          switch(bcase3) {
-          case -2: 
-          {
-            double d0 = xx - knots[0];
-            ud(zz,2) = d0* ud(zz,1)*inv_length2;
-            ud(zz,1) = d0* ud(zz,0)*inv_length + (knots[2] - xx)*ud(zz,1)*inv_length2;
-            ud(zz,0) = (knots[1] - xx)*ud(zz,0)*inv_length;
-            
-            ud(zz,3) = d0 * ud(zz,2)*inv_length3;
-            ud(zz,2) = d0 * ud(zz,1)*inv_length2+(knots[3] - xx)*ud(zz,2)*inv_length3;
-            ud(zz,1) = d0 * ud(zz,0)*inv_length + (knots[2] - xx)*ud(zz,1)*inv_length2;
-            ud(zz,0) = (knots[1] - xx)*ud(zz,0)*inv_length;
-            break;
-          }
-          case -1:
-            
-            ud(zz,3) = (xx - knots[1])*ud(zz,2)*inv_length2;
-            ud(zz,2) = ((xx - knots[0])*ud(zz,1)+(knots[3] -xx)*ud(zz,2))*inv_length2;
-            ud(zz,1) = (knots[2] - xx)*ud(zz,1)*inv_length2;
-            
-            ud(zz,4) = (xx - knots[1])*ud(3)*inv_length3;
-            ud(zz,3) = ((xx - knots[0])*ud(2)+(knots[4] - xx)*ud(zz,3))*inv_length3;
-            ud(zz,2) = (xx - knots[0])*ud(1)*inv_length2 + (knots[3] - xx)*ud(zz,2)*inv_length3;
-            ud(zz,1) = (knots[2] - xx)*ud(zz,1)*inv_length2;
-            break;
-          case 0:
-            
-            ud(zz,i+2) = (xx - knots[i])*ud(zz,i+1)*inv_length2;
-            ud(zz,i+1) = ((xx - knots[i-1])*ud(zz,i)+(knots[i+2] -xx)*ud(zz,i+1))*inv_length2;
-            ud(zz,i) = (knots[i+1] - xx)*ud(zz,i)*inv_length2;
-            
-            ud(zz,i+3) = (xx - knots[i])*ud(zz,i+2)*inv_length3;
-            ud(zz,i+2) = ((xx - knots[i-1])*ud(zz,i+1)+(knots[i+3] - xx)*ud(zz,i+2))*inv_length3;
-            ud(zz,i+1) = ((xx - knots[i-2])*ud(zz,i)+(knots[i+2] - xx)*ud(zz,i+1))*inv_length3;
-            ud(zz,i) = (knots[i+1] - xx)*ud(zz,i)*inv_length3;
-            break;
-          case 1: 
-            
-            ud(zz,i+2) = (xx - knots[i])*ud(zz,i+1)*inv_length2;
-            ud(zz,i+1) = ((xx - knots[i-1])*ud(zz,i)+(knots[i+2] -xx)*ud(zz,i+1))*inv_length2;
-            ud(zz,i) = (knots[i+1] - xx)*ud(zz,i)*inv_length2;
-            
-            ud(zz,i+3) = (xx - knots[i])*ud(zz,i+2)*inv_length2;
-            ud(zz,i+2) = (xx - knots[i-1])*ud(zz,i+1)*inv_length3 +
-              (knots[i+2] - xx)*ud(zz,i+2)*inv_length2;
-            ud(zz,i+1) = ((xx - knots[i-2])*ud(zz,i)+(knots[i+2] - xx)*ud(zz,i+1))*inv_length3;
-            ud(zz,i) = (knots[i+1] - xx)*ud(zz,i)*inv_length3;
-            break;
-          case 2: 
-            
-            ud(zz,i+2) = (xx - knots[i])*ud(zz,i+1)*inv_length;
-            ud(zz,i+1) = (xx - knots[i-1])*ud(zz,i)*inv_length2 + 
-              (knots[i+1] - xx)*ud(zz,i+1)*inv_length;
-            ud(zz,i) = (knots[i+1] - xx)*ud(zz,i)*inv_length2;
-            
-            ud(zz,i+3) = (xx - knots[i])*ud(zz,i+2)*inv_length;
-            ud(zz,i+2) =  (xx - knots[i-1])*ud(zz,i+1)*inv_length2 +
-              (knots[i+1] - xx)*ud(zz,i+2)*inv_length;
-            ud(zz,i+1) = (xx - knots[i-2])*ud(zz,i)*inv_length3+(knots[i+1] - xx)*ud(zz,i+1)*inv_length2;
-            ud(zz,i) = (knots[i+1] - xx)*ud(zz,i)*inv_length3;
-            break;
-          }
-        }
-      }
+
+    mat ud(n_basis, x.n_elem);
+
+    for (unsigned int kk = 0; kk < x.n_elem; kk++) ud.row(kk) = eval_coefs(x[kk]);
+
     return ud;
   };
 

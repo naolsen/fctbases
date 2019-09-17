@@ -17,3 +17,6 @@ Function
 \description{
 Make b-spline basis
 }
+\seealso{
+\link{Functional basis function}
+}

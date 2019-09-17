@@ -22,5 +22,8 @@ Make fourier basis
 \details{
 The number of basis elements (degrees of freedom) is 2 * order + 1.
 
-The basis functions are  [1, sin(x), cos(x), sin(2x), cos(2x), ..., sin(nx), cos(nx) ]
+The basis functions are ordered [1, sin(x), cos(x), sin(2x), cos(2x), ...]
+}
+\seealso{
+\link{Functional basis function}
 }

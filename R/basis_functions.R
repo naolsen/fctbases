@@ -12,16 +12,18 @@
 #'
 #' @details The number of basis elements (degrees of freedom) is 2 * order + 1.
 #'
-#' The basis functions are  [1, sin(x), cos(x), sin(2x), cos(2x), ..., sin(nx), cos(nx) ]
+#' The basis functions are ordered [1, sin(x), cos(x), sin(2x), cos(2x), ...]
 #'
 #' @return Function
 #' @export
+#'
+#' @seealso \link{Functional basis function}
 #'
 make.fourier.basis <- function(range, order, use.trig.id = FALSE) {
   basis <- init_fourier_basis(range, order, use.trig.id)
   f <- function(t, x, deriv = FALSE) {
     if (missing(x)) {
-      if (deriv) cpp_eval_D(basis, t) 
+      if (deriv) cpp_eval_D(basis, t)
       else cpp_eval_0(basis, t)
     }
     else {
@@ -33,7 +35,6 @@ make.fourier.basis <- function(range, order, use.trig.id = FALSE) {
   f
 }
 
-
 #' Make polynomial basis
 #'
 #' @param order Order of polynomial (= degree + 1)
@@ -43,7 +44,7 @@ make.fourier.basis <- function(range, order, use.trig.id = FALSE) {
 #' @return Function
 #' @export
 #'
-make.pol.basis <- function(order) {
+make.pol.basis <- function(order,  mode = c("function", "pointer", "f_object"), ty = F) {
 
   basis <- init_pol_basis(order)
   basis.to.function(basis)
@@ -57,16 +58,19 @@ make.pol.basis <- function(order) {
 #' @return Function
 #' @export
 #'
+#' @seealso \link{Functional basis function}
+#'
 make.bspline.basis <- function(knots, order = 4) {
 
   deg <- order - 1
+  if (order < 1) stop("Spline order must be positive!")
   basis.to.function(init_bspline(order, c(rep(knots[1], deg), knots)))
 }
 
 basis.to.function <- function(basis) {
   f <- function(t, x, deriv = FALSE) {
     if (missing(x)) {
-      if (deriv) cpp_eval_D(basis, t) 
+      if (deriv) cpp_eval_D(basis, t)
       else cpp_eval_0(basis, t)
     }
     else {
@@ -82,15 +86,16 @@ basis.to.function <- function(basis) {
 #'
 #' @param range End points of spline
 #' @param intervals Number of intervals
-#' 
+#'
 #' @description This initializes a bspline of order 4 with uniformly placed knots. df = intervals + 3.
 #'
 #' @return function
 #' @export
 #'
+#' @seealso \link{Functional basis function}
+#'
 make.std.bspline.basis <- function(range = c(0,1), intervals) {
   basis.to.function(init_bspline_u4(range[1], range[2], intervals))
 }
-
 
 

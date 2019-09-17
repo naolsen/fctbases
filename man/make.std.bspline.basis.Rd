@@ -17,3 +17,6 @@ function
 \description{
 This initializes a bspline of order 4 with uniformly placed knots. df = intervals + 3.
 }
+\seealso{
+\link{Functional basis function}
+}
