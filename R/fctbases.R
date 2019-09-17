@@ -5,13 +5,14 @@
 "_PACKAGE"
 #> [1] "_PACKAGE"
 
-
-#' @details
-#' fctbases is a fast and easy implementation of functional bases in R. Objects are stored in C++.
+#' Functional basis function
 #'
-#' A fctbases object is a function of class fctbases which takes three arguments \code{(t, x, deriv)}
+#' @description A fctbases object is a function of class fctbases which takes three arguments \code{(t, x, deriv)}
 #'
 #' @param t time points
-#' @param x coefficients (optional)
-#' @param deriv First-order derivative? Defaults to FALSE
-#' @
+#' @param x vector of coefficients (optional)
+#' @param deriv Should the derivative be used? Defaults to FALSE
+#'
+#'
+#' @name Functional basis function
+NULL
