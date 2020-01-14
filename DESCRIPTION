@@ -1,7 +1,7 @@
 Package: fctbases
 Type: Package
 Title: Functional bases
-Version: 0.9.0
+Version: 0.9.1
 Date: 2019-06-11
 Author: Niels Olsen
 Maintainer: Niels Olsen <niels.olsen@math.ku.dk>

@@ -259,29 +259,27 @@ public:
     // Evaluaterer d/dx B(x) ganget på koefficienter
     double eval_deriv(double x, const arma::vec& coefs) {
       
-      // Find interval
-      int i = getIndexOf(x)-1;
-      if (i < 0) {
-        Rf_warning("Outside of range");
-        return 0;
-      }
-      
-      
-      
-      else if (deg > 0) {
-        vec ret = zeros<vec>(order);
+      // if spline order is 1, then derivate is zero.
+      if (deg > 0) {
+        // Find interval
+        int i = getIndexOf(x)-1;
+        if (i < 0) {
+          Rf_warning("Outside of range");
+          return 0;
+        }
         
+        vec ret = zeros<vec>(order);
         ret(deg) = 1;
         
         for (int j=1; j < deg; j++) {
-            for (int kk = -j; kk < 0; kk++) {
-              int k = kk+i;
+          for (int kk = -j; kk < 0; kk++) {
+            int k = kk+i;
               
-              double dd = tknots(k+j) - tknots(k);
+            double dd = tknots(k+j) - tknots(k);
               
-              if (dd) ret(deg + kk) =(x- tknots(k))/dd * ret(deg+kk) +
+            if (dd) ret(deg + kk) =(x- tknots(k))/dd * ret(deg+kk) +
                 (tknots(k+j+1) - x) / (tknots(k+j+1) - tknots(k+1))* ret(deg+kk+1);
-              else ret(deg + kk) = 
+            else ret(deg + kk) = 
                 (tknots(k+j+1) - x) / (tknots(k+j+1) - tknots(k+1)) * ret(deg+kk+1);
             }
             //int k = i;
@@ -303,9 +301,9 @@ public:
         double ud = 0;
         for (int j = 0; j < order; j++) ud += ret(deg-j) * coefs(i-j);
         return ud;
-        
-      }};
-    
+      }
+      else return 0;
+    };
     
     Rcpp::List returnObject() {
       List ret;

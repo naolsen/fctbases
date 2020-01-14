@@ -7,3 +7,5 @@ Version 0.8: Major overhaul and re-implementation. Everything is much better, mo
 Version 0.8.1: Some improvements and bug fixes. Implementation of 'standard' b-spline basis.
 
 Version 0.8.1: More improvements. Functional bases using trigonometrical identities.
+
+Version 0.9.0: Documentation, code cleaning, small speed improvements. 
