@@ -276,8 +276,13 @@ public:
         for (int j=1; j < deg; j++) {
             for (int kk = -j; kk < 0; kk++) {
               int k = kk+i;
-              ret(deg+kk) =(x- tknots(k))/( tknots(k+j) - tknots(k))* ret(deg+kk) +
-                ( tknots(k+j+1) - x)/( tknots(k+j+1) - tknots(k+1))* ret(deg+kk+1);
+              
+              double dd = tknots(k+j) - tknots(k);
+              
+              if (dd) ret(deg + kk) =(x- tknots(k))/dd * ret(deg+kk) +
+                (tknots(k+j+1) - x) / (tknots(k+j+1) - tknots(k+1))* ret(deg+kk+1);
+              else ret(deg + kk) = 
+                (tknots(k+j+1) - x) / (tknots(k+j+1) - tknots(k+1)) * ret(deg+kk+1);
             }
             //int k = i;
             ret(deg) =(x- tknots(i)) / (tknots(i+j) - tknots(i))* ret(deg);
@@ -285,8 +290,12 @@ public:
         
         for (int kk = -deg; kk < 0; kk++) {
           int k = kk+i;
-          ret(kk+deg) =  deg * ( ret(kk+deg) / (tknots(k+deg) - tknots(k)) -
-            ret(kk+deg+1) / (tknots(k+deg+1) - tknots(k+1))) ;
+          
+          double dd = tknots(k+deg) - tknots(k);
+          if (dd) ret(kk+deg) =  deg * ( ret(kk+deg) / dd -
+              ret(kk+deg+1) / (tknots(k+deg+1) - tknots(k+1))) ;
+          else 
+            ret(kk+deg) = -deg * ret(kk+deg+1) / (tknots(k+deg+1) - tknots(k+1)) ;
         }
         ret(deg) =  deg * ret(deg) / (tknots(i+deg) - tknots(i));
         
