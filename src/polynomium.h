@@ -102,6 +102,17 @@ public:
     
     return ud;
   };
+  
+  arma::vec eval_d2_coefs(double x) {
+    vec ret = vec(n_basis);
+    double x0 = 1.0;
+    ret(0) = ret(1) = 0;
+    for (unsigned int i=2; i< n_basis; i++) {
+      ret(i) = i*(i-1)*x0;
+      x0 *= x;
+    }
+    return ret;
+  };
 
   public: Rcpp::List returnObject() { 
     List ret;

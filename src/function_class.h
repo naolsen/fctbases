@@ -39,7 +39,7 @@ public:
   virtual arma::vec eval_fct(const arma::vec& x, const arma::vec& coefs) {
     if (n_basis != coefs.n_elem) throw std::invalid_argument("Coeffienct vector must have same length as number of bases");
     
-    vec ud = zeros<vec>(x.n_elem);
+    vec ud(x.n_elem);
     for (unsigned int kk = 0; kk < x.n_elem; kk++) ud(kk) = eval_fct(x(kk), coefs);
     return ud;
   };
@@ -60,7 +60,32 @@ public:
     for (unsigned int kk = 0; kk < x.n_elem; kk++) ud(kk) = eval_deriv(x(kk), coefs);
     
     return ud;
-  }
+  };
+
+  virtual arma::vec eval_d2_coefs(double x) {
+    stop("Not implemented");
+  };
+  virtual arma::mat eval_d2_coefs(const arma::vec& x) {
+
+    mat ud(n_basis, x.n_elem);
+    for (unsigned int kk = 0; kk < x.n_elem; kk++) ud.col(kk) =  eval_d2_coefs(x(kk));
+    return ud.t();
+  };
+
+  virtual double eval_d2(double x, const arma::vec& coefs) {
+
+    vec basis = eval_d2_coefs(x);
+    return arma::dot(basis, coefs);
+  };
+  virtual arma::vec eval_d2(const arma::vec& x, const arma::vec& coefs) {
+
+    if (n_basis != coefs.n_elem) throw std::invalid_argument("Coeffienct vector must have same length as number of bases");
+
+    vec ud(x.n_elem);
+    for (unsigned int kk = 0; kk < x.n_elem; kk++) ud(kk) = eval_d2(x(kk), coefs);
+
+    return ud;
+  };
   
   protected: functionObject(size_t basis) : n_basis(basis), suppressWarnings(false) {
     
