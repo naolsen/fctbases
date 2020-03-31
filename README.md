@@ -8,7 +8,7 @@ In short what you can do is:
 
 * Calculate basis at desired time point(s)
 * Evaluate basis with coefficients at desired time point(s)
-* Both of the above, but with derivates
+* Both of the above, but also for first and second order derivates
 
 ## Usage
 Initialize a basis function by calling an appropiate initialization function, e.g.
@@ -33,16 +33,20 @@ The resulting function takes three arguments: `t` is a vector of time points, `x
 
 `f(t, x)`: Returns a vector of the basis function evaluted at time points `t`, multiplied by coefficients `x`. Equal to `f(t) %*% x`
 
-`f(t, deriv = T)`: Returns d/dt `f(t)`.
+`f(t, deriv = T)`: Returns first derivative, d/dt `f(t)`.
 
-`f(t, x, deriv = T)`: Returns d/dt `f(t) %*% x`.
+`f(t, x, deriv = T)`: Returns first derivative,  d/dt `f(t) %*% x`.
+
+`f(t, deriv = 2)`: Returns second derivative, d^2/dt^2 `f(t)`.
+
+`f(t, x, deriv = 2)`: Returns second derivative, d^2/dt^2 `f(t) %*% x`.
+
 
 ## Installation
 Download and install the package as a source package or use devtools, e.g. `devtools::install_github("naolsen/fctbases")`. A C++ compiler is required to compile the source. A Win64 binary of the package is also available upon request.  
 
-
 ## Issues
-It is currently not possible to save `fctbases` objects as .RData objects (and likely will not be). It is not known how the package works together with parallel computing.  
+It is currently not possible to save `fctbases` objects as .RData objects (and likely will not be).   
 
 ## Other
 Feel free to contribute and add suggestions. There are some bases, that I think would be nice to add: natural cubic splines, hermitian polynomials, wavelets bases and possibly others.

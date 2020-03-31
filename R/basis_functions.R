@@ -21,18 +21,7 @@
 #'
 make.fourier.basis <- function(range, order, use.trig.id = FALSE) {
   basis <- init_fourier_basis(range, order, use.trig.id)
-  f <- function(t, x, deriv = FALSE) {
-    if (missing(x)) {
-      if (deriv) cpp_eval_D(basis, t)
-      else cpp_eval_0(basis, t)
-    }
-    else {
-      if (deriv) cpp_eval_Dcoefs(basis, t, x)
-      else cpp_eval_coefs(basis, t, x)
-    }
-  }
-  class(f) <- "fctbasis"
-  f
+  basis.to.function(basis)
 }
 
 #' Make polynomial basis
@@ -44,7 +33,7 @@ make.fourier.basis <- function(range, order, use.trig.id = FALSE) {
 #' @return Function
 #' @export
 #'
-make.pol.basis <- function(order,  mode = c("function", "pointer", "f_object"), ty = F) {
+make.pol.basis <- function(order) {
 
   basis <- init_pol_basis(order)
   basis.to.function(basis)
@@ -70,11 +59,13 @@ make.bspline.basis <- function(knots, order = 4) {
 basis.to.function <- function(basis) {
   f <- function(t, x, deriv = FALSE) {
     if (missing(x)) {
-      if (deriv) cpp_eval_D(basis, t)
+      if (deriv > 1L) cpp_eval_D2(basis, t)
+      else if (deriv) cpp_eval_D(basis, t)
       else cpp_eval_0(basis, t)
     }
     else {
-      if (deriv) cpp_eval_Dcoefs(basis, t, x)
+      if (deriv > 1L) cpp_eval_D2_coefs(basis, t)
+      else if (deriv) cpp_eval_Dcoefs(basis, t, x)
       else cpp_eval_coefs(basis, t, x)
     }
   }

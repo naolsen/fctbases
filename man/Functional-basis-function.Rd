@@ -8,8 +8,16 @@
 
 \item{x}{vector of coefficients (optional)}
 
-\item{deriv}{Should the derivative be used? Defaults to FALSE}
+\item{deriv}{Should the derivative be used and which order? Defaults to \code{FALSE}}
+}
+\value{
+Returns a matrix if x is missing, and a vector if x is provided.
 }
 \description{
-A fctbases object is a function of class fctbases which takes three arguments \code{(t, x, deriv)}
+A fctbases object is a function of class \code{fctbases} which takes three arguments \code{(t, x, deriv)}
+}
+\details{
+If \code{deriv} is \code{FALSE} or zero, the function itself is evaluated.
+If \code{deriv} is one or \code{TRUE}, the first derivative is evaluated.
+If \code{deriv} is two, the second derivative is evaluated.
 }
