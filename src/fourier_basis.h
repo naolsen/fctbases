@@ -157,6 +157,20 @@ public:
     
     return ud;
   }
+
+   arma::vec eval_d2_coefs(double x) {
+
+    double z = (x-left_end) * inv_length;
+    vec ret(n_basis);
+
+    ret(0) = 0;
+    for (int i=1; i<=order; i++) {
+      ret(2*i-1) = -sin(z*i)* inv_length * inv_length * i * i;
+      ret(2*i) = -cos(z*i)* inv_length * inv_length * i * i;
+    }
+    return ret;
+  }
+
   public: Rcpp::List returnObject() { 
     List ret;
     ret["n_basis"] = (int) n_basis;
@@ -301,7 +315,6 @@ public:
 
     return ud;
   }
-
 
   arma::vec eval_deriv(const arma::vec& x, const arma::vec& coefs) {
     if (n_basis != coefs.n_elem) throw std::invalid_argument("Coeffienct vector must have same length as number of bases");

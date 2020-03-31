@@ -74,31 +74,29 @@ public:
     }
     
   }
-  
-  public:
-    arma::vec eval_coefs(double x) {
-      vec ret = zeros<vec>(n_basis);
-      
 
-      int i = getIndexOf(x)-1;
-      if (i < 0) {
-        Rf_warning("Outside of range");
-      }
-      else {
-        
-        ret(i) = 1;
-        
-          for (int j=1; j < order; j++) {
-            for (int k = i-j; k <= i; k++) {
-              
-              double dd = tknots(k+j) - tknots(k);
-              ret(k) =(x- tknots(k))/dd * ret(k) +
-                ( tknots(k+j+1) - x)/( tknots(k+j+1) - tknots(k+1))* ret(k+1);
-          }
+  arma::vec eval_coefs(double x) {
+
+    vec ret = zeros<vec>(n_basis);
+    int i = getIndexOf(x)-1;
+    if (i < 0) {
+      Rf_warning("Outside of range");
+    }
+    else {
+
+      ret(i) = 1;
+
+      for (int j=1; j < order; j++) {
+        for (int k = i-j; k <= i; k++) {
+
+          double dd = tknots(k+j) - tknots(k);
+          ret(k) =(x- tknots(k))/dd * ret(k) +
+            (tknots(k+j+1) - x)/( tknots(k+j+1) - tknots(k+1))* ret(k+1);
         }
       }
-      return ret;
-    };
+    }
+    return ret;
+  };
     
     // Evaluates B-spline y at specfified values x
     // If x is outside of the range of y, 0 is returned with a warning.
@@ -304,6 +302,53 @@ public:
       }
       else return 0;
     };
+
+      // Evaluerer d/dx B(x)
+  arma::vec eval_d2_coefs(double x)  {
+
+    vec ret = zeros<vec>(n_basis);
+    int i = getIndexOf(x)-1;
+    if (i < 0) {
+      Rf_warning("Outside of range");
+    }
+
+    else if (deg > 0) {
+
+      ret(i) = 1;
+
+      // B-spline af grad = orden-2
+      for (int j=1; j < deg-1; j++) {
+        for (int k = i-j; k < i; k++) {
+
+          double dd = tknots(k+j) - tknots(k);
+
+          if (dd) ret(k) =(x- tknots(k))/dd * ret(k) +
+            ( tknots(k+j+1) - x)/( tknots(k+j+1) - tknots(k+1))* ret(k+1);
+          else ret(k) = ( tknots(k+j+1) - x)/( tknots(k+j+1) - tknots(k+1))* ret(k+1);
+
+        }
+        ret(i) = (x - tknots(i)) / (tknots(i+j) - tknots(i))* ret(i);
+      }
+
+      // Fra -2 til -1
+      for (int k = i-deg; k < i; k++) {
+        double dd = tknots(k+deg) - tknots(k);
+        if (dd) ret(k) = deg * (ret(k) / dd - ret(k+1) / (tknots(k+deg+1) - tknots(k+1)));
+        else ret(k) =  -deg* ret(k+1) / (tknots(k+deg+1) - tknots(k+1));
+      }
+      ret(i) =  (deg-1) * ret(i) / (tknots(i+deg-1) - tknots(i));
+
+      // Fra -1 til 0:
+      for (int k = i-deg; k < i; k++) {
+        double dd = tknots(k+deg) - tknots(k);
+        if (dd) ret(k) = deg * ( ret(k) / dd - ret(k+1) / (tknots(k+deg+1) - tknots(k+1))) ;
+        else ret(k) =  -deg* ret(k+1) / (tknots(k+deg+1) - tknots(k+1));
+      }
+      ret(i) =  deg * ret(i) / (tknots(i+deg) - tknots(i));
+    }
+
+    return ret;
+  };
     
     Rcpp::List returnObject() {
       List ret;
