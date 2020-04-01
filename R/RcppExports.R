@@ -37,6 +37,18 @@ cpp_eval_D <- function(address, x, check_valid = TRUE) {
     .Call(`_fctbases_cpp_eval_D`, address, x, check_valid)
 }
 
+cpp_eval_D2_coefs <- function(address, x, coefs, check_valid = TRUE) {
+    .Call(`_fctbases_cpp_eval_D2_coefs`, address, x, coefs, check_valid)
+}
+
+cpp_eval_D2 <- function(address, x, check_valid = TRUE) {
+    .Call(`_fctbases_cpp_eval_D2`, address, x, check_valid)
+}
+
+describe_object <- function(address, check_valid = TRUE) {
+    .Call(`_fctbases_describe_object`, address, check_valid)
+}
+
 init_fourier_basis <- function(range, order, trig_basis = FALSE) {
     .Call(`_fctbases_init_fourier_basis`, range, order, trig_basis)
 }

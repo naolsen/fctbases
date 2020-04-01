@@ -107,6 +107,45 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// cpp_eval_D2_coefs
+arma::vec cpp_eval_D2_coefs(SEXP address, const arma::vec& x, const arma::vec& coefs, bool check_valid);
+RcppExport SEXP _fctbases_cpp_eval_D2_coefs(SEXP addressSEXP, SEXP xSEXP, SEXP coefsSEXP, SEXP check_validSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type address(addressSEXP);
+    Rcpp::traits::input_parameter< const arma::vec& >::type x(xSEXP);
+    Rcpp::traits::input_parameter< const arma::vec& >::type coefs(coefsSEXP);
+    Rcpp::traits::input_parameter< bool >::type check_valid(check_validSEXP);
+    rcpp_result_gen = Rcpp::wrap(cpp_eval_D2_coefs(address, x, coefs, check_valid));
+    return rcpp_result_gen;
+END_RCPP
+}
+// cpp_eval_D2
+arma::mat cpp_eval_D2(SEXP address, const arma::vec& x, bool check_valid);
+RcppExport SEXP _fctbases_cpp_eval_D2(SEXP addressSEXP, SEXP xSEXP, SEXP check_validSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type address(addressSEXP);
+    Rcpp::traits::input_parameter< const arma::vec& >::type x(xSEXP);
+    Rcpp::traits::input_parameter< bool >::type check_valid(check_validSEXP);
+    rcpp_result_gen = Rcpp::wrap(cpp_eval_D2(address, x, check_valid));
+    return rcpp_result_gen;
+END_RCPP
+}
+// describe_object
+Rcpp::List describe_object(SEXP address, bool check_valid);
+RcppExport SEXP _fctbases_describe_object(SEXP addressSEXP, SEXP check_validSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type address(addressSEXP);
+    Rcpp::traits::input_parameter< bool >::type check_valid(check_validSEXP);
+    rcpp_result_gen = Rcpp::wrap(describe_object(address, check_valid));
+    return rcpp_result_gen;
+END_RCPP
+}
 // init_fourier_basis
 SEXP init_fourier_basis(const arma::vec& range, int order, bool trig_basis);
 RcppExport SEXP _fctbases_init_fourier_basis(SEXP rangeSEXP, SEXP orderSEXP, SEXP trig_basisSEXP) {
@@ -141,6 +180,9 @@ static const R_CallMethodDef CallEntries[] = {
     {"_fctbases_cpp_eval_0", (DL_FUNC) &_fctbases_cpp_eval_0, 3},
     {"_fctbases_cpp_eval_Dcoefs", (DL_FUNC) &_fctbases_cpp_eval_Dcoefs, 4},
     {"_fctbases_cpp_eval_D", (DL_FUNC) &_fctbases_cpp_eval_D, 3},
+    {"_fctbases_cpp_eval_D2_coefs", (DL_FUNC) &_fctbases_cpp_eval_D2_coefs, 4},
+    {"_fctbases_cpp_eval_D2", (DL_FUNC) &_fctbases_cpp_eval_D2, 3},
+    {"_fctbases_describe_object", (DL_FUNC) &_fctbases_describe_object, 2},
     {"_fctbases_init_fourier_basis", (DL_FUNC) &_fctbases_init_fourier_basis, 3},
     {"_fctbases_init_pol_basis", (DL_FUNC) &_fctbases_init_pol_basis, 1},
     {NULL, NULL, 0}
