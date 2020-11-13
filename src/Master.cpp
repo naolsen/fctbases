@@ -5,7 +5,7 @@
  * (c) Niels Olsen, 2019
  *
  * Base class for functional objects, to be used in FDA or related settings.
- * Renwed implementation.
+ * Re-implementation.
  *
  * 
  */
@@ -19,15 +19,8 @@ using namespace arma;
 
 static std::set<size_t> medlemmer; // Indeholder alle fct_class
 
-// Files 
+#include "defs/fctbases_types.hpp"
 #include "function_class.h" // functionObject, the main thing. 
-//#include "evaluation.h"    // Evaluates the objects
-//#include "fourier_header.h"
-//#include "polynomium.h"
-//#include "bspline_header.h"
-
-
-
 
 
 //Checks if SEXP is a pointer to a valid function_class object
@@ -52,10 +45,6 @@ inline bool check_if_valid_st(size_t st) {
 }
 
 
-//' Removes a functional object from the list. 
-//'
-//' Returns true if member awas on the list, returns false otherwise. 
-//'
 //[[Rcpp::export]]
 bool removeMember(SEXP address) {
   if (check_if_valid(address)) {
@@ -72,8 +61,6 @@ bool removeMember(SEXP address) {
 Rcpp::IntegerVector getObjectsOnList() {
   Rcpp::IntegerVector ret(0);
   
-  // cout << "Medlemmer " << medlemmer.size() << "\n";
-  
   std::set<size_t>::iterator it;
   for (it=medlemmer.begin(); it!=medlemmer.end(); ++it)
     ret.push_back((int) *it);
@@ -81,7 +68,7 @@ Rcpp::IntegerVector getObjectsOnList() {
   return ret;
 };
 
-// More files
+// Include files
 #include "evaluation.h"    // Evaluates the objects
 #include "fourier_header.h"
 #include "polynomium.h"

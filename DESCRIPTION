@@ -1,6 +1,6 @@
 Package: fctbases
 Type: Package
-Title: Functional bases
+Title: Functional Bases
 Version: 1.0.0
 Date: 2019-06-11
 Author: Niels Olsen
@@ -9,4 +9,3 @@ Description: Easy-to-use, very fast implementations of various functional bases
 License: GPL-3
 Imports: Rcpp (>= 0.12.19)
 LinkingTo: Rcpp, RcppArmadillo
-RoxygenNote: 7.0.2

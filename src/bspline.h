@@ -376,10 +376,10 @@ private:
   const double inv_length;
   const double inv_length2;
   const double inv_length3;
-  const double diff;
   
   const int deg;
   const int order;
+  const double diff; // = (x_max - x_min) / n_interval
   
 public:
   bspline_u4(const vec& spline_knots) :
@@ -580,9 +580,13 @@ public:
         break;
       }
     }
-    
-    return ret[0]*coefs(i) + ret[1]*coefs(++i) + 
-      ret[2]*coefs(++i) +ret[3]*coefs(++i);
+
+    // compileren er næsvis!:
+    double retur = ret[0]*coefs(i);
+      retur += ret[1]*coefs(++i);
+      retur += ret[2]*coefs(++i);
+      retur += ret[3]*coefs(++i);
+    return retur;
   };
   
   
@@ -668,9 +672,12 @@ public:
           ret(0) = (knots[i+1] - xx)*ret(0)*inv_length3;
           break;
         }
-    }
-    ud[zz] = ret[0]*coefs(i) + ret[1]*coefs(++i) + 
-      ret[2]*coefs(++i) +ret[3]*coefs(++i);
+      }
+      double retur = ret[0]*coefs(i);
+        retur +=  ret[1]*coefs(++i);
+        retur += ret[2]*coefs(++i);
+        retur += ret[3]*coefs(++i);
+      ud[zz] = retur;
   }
     return ud;
   };
@@ -846,10 +853,12 @@ public:
       }
       
     }
-    
-    return 3*(ret[0]*coefs(i) + ret[1]*coefs(++i) + 
-      ret[2]*coefs(++i) +ret[3]*coefs(++i));
-    
+
+    double retur = ret[0]*coefs(i);
+      retur += ret[1]*coefs(++i);
+      retur += ret[2]*coefs(++i);
+      retur += ret[3]*coefs(++i);
+    return 3 * retur;
     };
   
   

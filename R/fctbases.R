@@ -25,7 +25,7 @@ NULL
 
 #' Functional basis info
 #'
-#' @param fctbasis \code{fctbasis} object
+#' @param fctbasis object of class \code{fctbasis}
 #'
 #' @description This function returns details about a functional basis.
 #'

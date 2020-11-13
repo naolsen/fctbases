@@ -1,7 +1,6 @@
 useDynLib(fctbases, .registration=TRUE)
 importFrom(Rcpp, evalCpp)
 
-export(removeMember)
 export(make.fourier.basis)
 export(make.pol.basis)
 export(make.bspline.basis)
