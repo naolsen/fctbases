@@ -21,3 +21,17 @@
 #'
 #' @name Functional basis function
 NULL
+
+
+#' Functional basis info
+#'
+#' @param fctbasis \code{fctbasis} object
+#'
+#' @description This function returns details about a functional basis.
+#'
+#' @return A named list including no. of basis, type of basis, and possibly additional information.
+#' @export
+#'
+object.info <- function(fctbasis) {
+  describe_object(environment(fctbasis)$basis)
+}

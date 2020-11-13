@@ -6,4 +6,4 @@ export(make.fourier.basis)
 export(make.pol.basis)
 export(make.bspline.basis)
 export(make.std.bspline.basis)
-
+export(object.info)
