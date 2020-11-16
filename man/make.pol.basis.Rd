@@ -10,11 +10,16 @@ make.pol.basis(order)
 \item{order}{Order of polynomial (= degree + 1)}
 }
 \value{
-Function
+Function of class "fctbasis"
 }
 \description{
 Make polynomial basis
 }
 \details{
-Polynomial basis (1, x, x^2, x^3, ..., x^n)
+The polynomial basis is ordered [1, t, t^2, t^3, ..., t^n]
+}
+\examples{
+## A four-degree polynomial
+mypol <- make.pol.basis(order = 5)
+
 }

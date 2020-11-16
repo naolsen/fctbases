@@ -5,7 +5,7 @@ Version: 1.0.0
 Date: 2019-06-11
 Author: Niels Olsen
 Maintainer: Niels Olsen <nalo@dtu.dk>
-Description: Easy-to-use, very fast implementations of various functional bases
+Description: Easy-to-use, very fast implementation of various functional bases, which can be applied directly or used with other packages.
 License: GPL-3
 Imports: Rcpp (>= 0.12.19)
 LinkingTo: Rcpp, RcppArmadillo

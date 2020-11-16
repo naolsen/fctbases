@@ -12,10 +12,19 @@ make.bspline.basis(knots, order = 4)
 \item{order}{Spline order. Defaults to 4.}
 }
 \value{
-Function
+Function of class "fctbasis"
 }
 \description{
 Make b-spline basis
+}
+\examples{
+## B-spline with equidistant knots with 13 basis function
+bf <- make.bspline.basis(knots = 0:10, order = 4)
+
+## B-spline of order 2 (ie. a linear approximation) with some uneven knots
+bf <- make.bspline.basis(knots = c(-1.3, 0, 0.5, 0.7, 1.1), order = 2)
+
+
 }
 \seealso{
 \link{Functional basis function}

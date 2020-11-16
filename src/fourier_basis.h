@@ -89,15 +89,7 @@ public:
     if (n_basis != coefs.n_elem) throw std::invalid_argument("Coeffienct vector must have same length as number of bases");
     
     vec ud(x.n_elem);
-    
     for (unsigned int kk = 0; kk < x.n_elem; kk++) {
-      double z = (x[kk]-left_end) * inv_length;
-      double ret = coefs(0);
-      
-      for (int i=1; i<=order; i++) {
-        ret += sin(z*i)*coefs(2*i-1);
-        ret += cos(z*i)*coefs(2*i);
-      }
       ud(kk) = eval_fct(x(kk), coefs);
     }
     return ud;
@@ -142,11 +134,11 @@ public:
     double ud = 0;
     
     for (int i=1; i<=order; i++) {
-      ud += cos(z*i)*coefs(2*i-1) * inv_length * i;
-      ud -= sin(z*i)*coefs(2*i) * inv_length * i;
+      ud += cos(z*i)*coefs(2*i-1) * i;
+      ud -= sin(z*i)*coefs(2*i) * i;
     }
     
-    return ud;
+    return inv_length*ud;
   }
   arma::vec eval_deriv(const arma::vec& x, const arma::vec& coefs) {
     
