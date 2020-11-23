@@ -19,7 +19,7 @@ BEGIN_RCPP
 END_RCPP
 }
 // getObjectsOnList
-Rcpp::IntegerVector getObjectsOnList();
+Rcpp::List getObjectsOnList();
 RcppExport SEXP _fctbases_getObjectsOnList() {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;

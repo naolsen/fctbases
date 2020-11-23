@@ -57,14 +57,21 @@ bool removeMember(SEXP address) {
   else return false;
 };
 
+// Bedre implementation som liste.
+// Bemærk at lazy evaluation kan gøre ting mærkelige.
 //[[Rcpp::export]]
-Rcpp::IntegerVector getObjectsOnList() {
-  Rcpp::IntegerVector ret(0);
-  
+Rcpp::List getObjectsOnList() {
+
+  Rcpp::List ret;
+
   std::set<size_t>::iterator it;
   for (it=medlemmer.begin(); it!=medlemmer.end(); ++it)
-    ret.push_back((int) *it);
-  
+  {
+    size_t st = *it;
+    SEXP s = PROTECT(R_MakeExternalPtr((void*) st, R_NilValue, R_NilValue));
+    ret.push_back(s);
+    UNPROTECT(1);
+  }
   return ret;
 };
 
