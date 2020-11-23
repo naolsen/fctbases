@@ -23,6 +23,8 @@ Make fourier basis
 The number of basis elements (degrees of freedom) is 2 * order + 1.
 
 The basis functions are ordered [1, sin(t), cos(t), sin(2t), cos(2t), ...]
+
+Using trigonometrical identities is faster, but introduces (negligible) round-off errors.
 }
 \examples{
 ## A fourier basis with period 1 and 11 basis functions. 

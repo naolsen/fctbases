@@ -15,8 +15,17 @@ make.std.bspline.basis(range = c(0, 1), intervals)
 function
 }
 \description{
-This initializes a bspline of order 4 with uniformly placed knots. df = intervals + 3.
+This initializes a bspline of order 4 with uniformly places knots. df = intervals + 3.
+}
+\details{
+\code{make.std.bspline.basis} uses a different internal implementation than \code{make.bspline.basis}, 
+but is not conclusively faster.
+}
+\examples{
+## 16 equidistant knots between 0 and 2 (both included)
+bf <- make.std.bspline.basis(range = c(0,2), intervals = 15)
+
 }
 \seealso{
-\link{Functional basis function}
+\link{Functional basis function}, \link{make.bspline.basis}
 }

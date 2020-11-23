@@ -15,7 +15,7 @@ make.bspline.basis(knots, order = 4)
 Function of class "fctbasis"
 }
 \description{
-Make b-spline basis
+Make B-spline basis
 }
 \examples{
 ## B-spline with equidistant knots with 13 basis function

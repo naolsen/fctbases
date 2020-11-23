@@ -1,9 +1,4 @@
 
-
-
-
-
-
 #' Make fourier basis
 #'
 #' @param range Left and right end points.
@@ -12,10 +7,16 @@
 #'
 #' @details The number of basis elements (degrees of freedom) is 2 * order + 1.
 #'
-#' The basis functions are ordered [1, sin(x), cos(x), sin(2x), cos(2x), ...]
+#' The basis functions are ordered [1, sin(t), cos(t), sin(2t), cos(2t), ...]
 #'
-#' @return Function
+#' Using trigonometrical identities is faster, but introduces (negligible) round-off errors.
+#'
+#' @return Function of class "fctbasis"
 #' @export
+#'
+#' @examples
+#' ## A fourier basis with period 1 and 11 basis functions.
+#' bf <- make.fourier.basis(c(0,1), order = 5)
 #'
 #' @seealso \link{Functional basis function}
 #'
@@ -28,10 +29,16 @@ make.fourier.basis <- function(range, order, use.trig.id = FALSE) {
 #'
 #' @param order Order of polynomial (= degree + 1)
 #'
-#' @details Polynomial basis (1, x, x^2, x^3, ..., x^n)
+#' @details The polynomial basis is ordered [1, t, t^2, t^3, ..., t^n]
 #'
-#' @return Function
+#' @return Function of class "fctbasis"
 #' @export
+#'
+#' @seealso \link{Functional basis function}
+#'
+#' @examples
+#' ## A four-degree polynomial
+#' mypol <- make.pol.basis(order = 5)
 #'
 make.pol.basis <- function(order) {
 
@@ -39,15 +46,22 @@ make.pol.basis <- function(order) {
   basis.to.function(basis)
 }
 
-#' Make b-spline basis
+#' Make B-spline basis
 #'
 #' @param knots Knots of the basis, including endpoints
 #' @param order Spline order. Defaults to 4.
 #'
-#' @return Function
+#' @return Function of class "fctbasis"
 #' @export
 #'
 #' @seealso \link{Functional basis function}
+#'
+#' @examples
+#' ## B-spline with equidistant knots with 13 basis function
+#' bf <- make.bspline.basis(knots = 0:10, order = 4)
+#'
+#' ## B-spline of order 2 (ie. a linear approximation) with some uneven knots
+#' bf <- make.bspline.basis(knots = c(-1.3, 0, 0.5, 0.7, 1.1), order = 2)
 #'
 make.bspline.basis <- function(knots, order = 4) {
 
@@ -78,12 +92,19 @@ basis.to.function <- function(basis) {
 #' @param range End points of spline
 #' @param intervals Number of intervals
 #'
-#' @description This initializes a bspline of order 4 with uniformly placed knots. df = intervals + 3.
+#' @description This initializes a bspline of order 4 with uniformly places knots. df = intervals + 3.
+#'
+#' @details \code{make.std.bspline.basis} uses a different internal implementation than \code{make.bspline.basis},
+#' but is not conclusively faster.
 #'
 #' @return function
 #' @export
 #'
-#' @seealso \link{Functional basis function}
+#' @seealso \link{Functional basis function}, \link{make.bspline.basis}
+#'
+#' @examples
+#' ## 16 equidistant knots between 0 and 2 (both included)
+#' bf <- make.std.bspline.basis(range = c(0,2), intervals = 15)
 #'
 make.std.bspline.basis <- function(range = c(0,1), intervals) {
   basis.to.function(init_bspline_u4(range[1], range[2], intervals))

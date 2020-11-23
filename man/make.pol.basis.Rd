@@ -23,3 +23,6 @@ The polynomial basis is ordered [1, t, t^2, t^3, ..., t^n]
 mypol <- make.pol.basis(order = 5)
 
 }
+\seealso{
+\link{Functional basis function}
+}

@@ -43,7 +43,8 @@ The resulting function takes three arguments: `t` is a vector of time points, `x
 
 
 ## Installation
-Download and install the package as a source package or use devtools, e.g. `devtools::install_github("naolsen/fctbases")`. A C++ compiler is required to compile the source. A Win64 binary of the package is also available upon request.  
+Download and install the package as a source package or use devtools, e.g. `devtools::install_github("naolsen/fctbases")`. A C++ compiler is required to compile the source. 
+The package is also available from CRAN `install.package("fctbases")`.
 
 ## Issues
 It is currently not possible to save `fctbases` objects as .RData objects (and likely will not be).   

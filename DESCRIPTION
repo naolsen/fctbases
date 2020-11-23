@@ -2,10 +2,13 @@ Package: fctbases
 Type: Package
 Title: Functional Bases
 Version: 1.0.0
-Date: 2019-06-11
+Date: 2020-11-20
 Author: Niels Olsen
 Maintainer: Niels Olsen <nalo@dtu.dk>
-Description: Easy-to-use, very fast implementation of various functional bases, which can be applied directly or used with other packages.
+Description: Easy-to-use, very fast implementation of various functional bases. Easily used together with other packages.
+    A functional basis is a collection of basis functions [\phi_1, ..., \phi_n] that can represent a smooth function, i.e. $f(t) = \sum c_k \phi_k(t)$.
+    As of version 1.0, this package includes B-splines, Fourier bases and polynomials.
+URL: https://github.com/naolsen/fctbases
 License: GPL-3
 Imports: Rcpp (>= 0.12.19)
 LinkingTo: Rcpp, RcppArmadillo
