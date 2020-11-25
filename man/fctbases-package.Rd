@@ -9,7 +9,7 @@
 Easy-to-use, very fast implementations of various functional bases
 }
 \details{
-fctbases is a fast and easy implementation of functional bases in R. Simply initialize the desired basis, which returns function of class \code{fctbases}.
+fctbases is a fast and easy implementation of functional bases in R. Simply initialize the desired basis, which returns function of class \code{fctbasis}.
 
-Internally, functions are stored as C++ objects are stored in C++.
+Internally, functions are stored as C++ objects, which are masked by the package.
 }

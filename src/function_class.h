@@ -98,7 +98,6 @@ public:
       virtual ~functionObject() {
         
         medlemmer.erase((size_t) this);
-        Rcout << "Succesfully deleted! \n";
       };
       
       // R-del!

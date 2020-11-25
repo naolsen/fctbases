@@ -14,10 +14,27 @@
 Returns a matrix if x is missing, and a vector if x is provided.
 }
 \description{
-A fctbases object is a function of class \code{fctbases} which takes three arguments \code{(t, x, deriv)}
+A fctbases object is a function of class \code{fctbasis} which takes three arguments \code{(t, x, deriv)}
 }
 \details{
 If \code{deriv} is \code{FALSE} or zero, the function itself is evaluated.
 If \code{deriv} is one or \code{TRUE}, the first derivative is evaluated.
 If \code{deriv} is two, the second derivative is evaluated.
+}
+\examples{
+## Create basis (here a b spline)
+bf <- make.bspline.basis(knots = 0:12/12)
+
+## Use a functional basis
+
+bf(0.2)
+tt <- seq(0,1, length = 50)
+bf(tt) ## evaluates bf in tt
+bf(tt, deriv = T) ## evaluates derivative of bf in tt
+
+## Apply bf to some coefficients
+set.seed(661)
+x <- rnorm(15) 
+bf(tt, x) ## Evaluate bf in tt with coefficients x. 
+
 }

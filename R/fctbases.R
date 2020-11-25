@@ -1,7 +1,7 @@
 #' @details
-#' fctbases is a fast and easy implementation of functional bases in R. Simply initialize the desired basis, which returns function of class \code{fctbases}.
+#' fctbases is a fast and easy implementation of functional bases in R. Simply initialize the desired basis, which returns function of class \code{fctbasis}.
 #' 
-#' @details Internally, functions are stored as C++ objects are stored in C++.
+#' @details Internally, functions are stored as C++ objects, which are masked by the package.
 "_PACKAGE"
 #> [1] "_PACKAGE"
 
@@ -29,7 +29,7 @@ NULL
 #'
 #' @description This function returns details about a functional basis.
 #'
-#' @return A named list including no. of basis, type of basis, and possibly additional information.
+#' @return A named list including no. of basis, type of basis, and additional information.
 #' @export
 #'
 object.info <- function(fctbasis) {
