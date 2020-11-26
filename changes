@@ -15,3 +15,5 @@ Version 0.9.2: Derivatives of first order spline. Evaluating a function with coe
 Version 1.0.0: Derivatives of second order. Second-order derivatives have not yet been optimised for speed.
 
 23-11-2020: Package is now available from CRAN.
+
+Version 1.0.1: Fixed missing argument for second order derivatives, f(t,x, deriv = 2) now works. Improved documentation since 1.0.0.

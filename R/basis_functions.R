@@ -78,7 +78,7 @@ basis.to.function <- function(basis) {
       else cpp_eval_0(basis, t)
     }
     else {
-      if (deriv > 1L) cpp_eval_D2_coefs(basis, t)
+      if (deriv > 1L) cpp_eval_D2_coefs(basis, t, x)
       else if (deriv) cpp_eval_Dcoefs(basis, t, x)
       else cpp_eval_coefs(basis, t, x)
     }
