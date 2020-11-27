@@ -2,7 +2,7 @@
 % Please edit documentation in R/basis_functions.R
 \name{make.bspline.basis}
 \alias{make.bspline.basis}
-\title{Make b-spline basis}
+\title{Make B-spline basis}
 \usage{
 make.bspline.basis(knots, order = 4)
 }
@@ -27,5 +27,5 @@ bf <- make.bspline.basis(knots = c(-1.3, 0, 0.5, 0.7, 1.1), order = 2)
 
 }
 \seealso{
-\link{Functional basis function}
+\link{Functional basis function}, \link{make.std.bspline.basis}
 }

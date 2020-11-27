@@ -421,10 +421,8 @@ public:
       int bcase3 = -(i < 2) - (i == 0) + (i == n_intervals-1) + (i > n_intervals - 3);
 
 
-      ud[i] = 1;
-
-      ud[i+1] = (x-knots[i])*ud(i)*inv_length;
-      ud[i] = (knots[i+1] - x)*ud(i)*inv_length;
+      ud[i+1] = (x-knots[i])*inv_length;
+      ud[i] = (knots[i+1] - x)*inv_length;
 
       switch(bcase3){
       case -2:
@@ -494,18 +492,9 @@ public:
     return ud;
   };
 
-  arma::mat eval_coefs(arma::vec x) {
-
-    mat ud(n_basis, x.n_elem);
-
-    for (unsigned int kk = 0; kk < x.n_elem; kk++) ud.row(kk) = eval_coefs(x[kk]);
-
-    return ud;
-  };
-
   double eval_fct(double x, const arma::vec& coefs) {
     
-    if (n_basis != coefs.n_elem) stop("Coeffienct vector must have same length as number of bases");
+    if (n_basis != coefs.n_elem) stop("Coefficient vector must have same length as number of bases");
     
     vec ret = zeros<vec>(4);
     int i = getIndexOf(x)-1;
@@ -522,11 +511,9 @@ public:
       // -2,-1,0,1,2.
       int bcase3 = -(i < 2) - (i == 0) + (i == n_intervals-1) + (i > n_intervals - 3);
       
-      ret(0) = 1;
-      
-      ret(1) = (x-knots[i])*ret(0)*inv_length;
-      ret(0) = (knots[i+1] - x)*ret(0)*inv_length;
-      
+      ret[1] = (x-knots[i])*inv_length;
+      ret[0] = (knots[i+1] - x)*inv_length;
+
       switch(bcase2) {
       case -1: 
         ret(2) = (x - knots[0])*ret(1)*inv_length2;
@@ -615,10 +602,8 @@ public:
         // -2,-1,0,1,2.
         int bcase3 = -(i < 2) - (i == 0) + (i == n_intervals-1) + (i > n_intervals - 3);
         
-        ret(0) = 1;
-        
-        ret(1) = (xx-knots[i])*ret(0)*inv_length;
-        ret(0) = (knots[i+1] - xx)*ret(0)*inv_length;
+        ret[1] = (xx-knots[i])*inv_length;
+        ret[0] = (knots[i+1] - xx)*inv_length;
         
         switch(bcase2) {
         case -1: 
@@ -700,11 +685,8 @@ public:
       // -2,-1,0,1,2.
       int bcase3 = -(i < 2) - (i == 0) + (i == n_intervals-1) + (i > n_intervals - 3);
       
-      ret(i) = 1;
-      
-      ret(i+1) = (x-knots[i])*ret(i)*inv_length;
-      ret(i) = (knots[i+1] - x)*ret(i)*inv_length;
-      
+      ret[i+1] = (x-knots[i])*inv_length;
+      ret[i] = (knots[i+1] - x)*inv_length;
       
       switch(bcase2) {
       case -1: 
@@ -776,7 +758,7 @@ public:
   
   
   // Evaluaterer d/dx B(x) ganget på koefficienter
- double eval_deriv(double x, const arma::vec& coefs) {
+  double eval_deriv(double x, const arma::vec& coefs) {
     
     if (n_basis != coefs.n_elem) stop("Coeffienct vector must have same length as number of bases");
     
@@ -795,10 +777,8 @@ public:
       // -2,-1,0,1,2.
       int bcase3 = -(i < 2) - (i == 0) + (i == n_intervals-1) + (i > n_intervals - 3);
       
-      ret(0) = 1;
-      
-      ret(1) = (x-knots[i])*ret(0)*inv_length;
-      ret(0) = (knots[i+1] - x)*ret(0)*inv_length;
+      ret[1] = (x-knots[i])*inv_length;
+      ret[0] = (knots[i+1] - x)*inv_length;
       
       switch(bcase2) {
       case -1: 
@@ -861,7 +841,76 @@ public:
     return 3 * retur;
     };
   
-  
+  arma::vec eval_d2_coefs(double x)  {
+
+    vec ret = zeros<vec>(n_basis);
+    const int i = getIndexOf(x)-1;
+    if (i < 0) {
+      Rf_warning("Outside of range");
+    }
+    else {
+      // -1 hvis første interval, +1 hvis sidste interval, 0 ellers.
+      int bcase2 = -(i == 0) + (i == n_intervals-1);
+
+      // -2,-1,0,1,2.
+      int bcase3 = -(i < 2) - (i == 0) + (i == n_intervals-1) + (i > n_intervals - 3);
+
+      ret[i+1] = (x-knots[i])*inv_length;
+      ret[i] = (knots[i+1] - x)*inv_length;
+
+      switch(bcase2) {
+      case -1:
+        ret(2) = 2*ret(1)*inv_length2;
+        ret(1) = 2*(ret(0)*inv_length - ret(1)*inv_length2);
+        ret(0) = 2*(-ret(0)*inv_length);
+        break;
+      case 0:
+        ret(i+2) = 2*ret(i+1)*inv_length2;
+        ret(i+1) = 2*(ret(i) - ret(i+1))*inv_length2;
+        ret(i) = 2*(-ret(i)*inv_length2);
+        break;
+      case 1:
+        ret(i+2) = 2*ret(i+1)*inv_length;
+        ret(i+1) = 2*(ret(i)*inv_length2 - ret(i+1)*inv_length);
+        ret(i) = 2*(-ret(i)*inv_length2);
+        break;
+      }
+
+      switch(bcase3) {
+      case -2:
+        ret(3) = 3*ret(2)*inv_length3; // Samme som inv_length?
+        ret(2) = 3*(ret(1)*inv_length2 - ret(2)*inv_length3);
+        ret(1) = 3*(ret(0)*inv_length - ret(1)*inv_length2);
+        ret(0) = -3*ret(0)*inv_length;
+        break;
+      case -1:
+        ret(4) = 3*ret(3)*inv_length3;
+        ret(3) = 3*(ret(2) - ret(3))*inv_length3;
+        ret(2) = 3*(ret(1)*inv_length2 - ret(2)*inv_length3);
+        ret(1) = -3*ret(1)*inv_length2;
+        break;
+      case 0:
+        ret(i+3) = 3*ret(i+2)*inv_length3;
+        ret(i+2) = 3*(ret(i+1) - ret(i+2))*inv_length3;
+        ret(i+1) = 3*(ret(i) - ret(i+1))*inv_length3;
+        ret(i) = -3*ret(i)*inv_length3;
+        break;
+      case 1:
+        ret(i+3) = 3*ret(i+2)*inv_length2;
+        ret(i+2) = 3*(ret(i+1)*inv_length3 - ret(i+2)*inv_length2);
+        ret(i+1) = 3*(ret(i) - ret(i+1))*inv_length3;
+        ret(i) = -3*ret(i)*inv_length3;
+        break;
+      case 2:
+        ret(i+3) = 3*ret(i+2)*inv_length;
+        ret(i+2) = 3*(ret(i+1)*inv_length2 - ret(i+2)*inv_length);
+        ret(i+1) = 3*(ret(i)*inv_length3 - ret(i+1)*inv_length2);
+        ret(i) = -3*ret(i)*inv_length3;
+        break;
+      }
+    }
+    return ret;
+  }
 };
 
 #endif

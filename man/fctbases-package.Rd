@@ -6,10 +6,15 @@
 \alias{fctbases-package}
 \title{fctbases: Functional bases}
 \description{
-Easy-to-use, very fast implementations of various functional bases
+fctbases is a fast and easy implementation of functional bases in R. Simply initialize the desired basis, which returns function of class \code{fctbasis}.
 }
 \details{
-fctbases is a fast and easy implementation of functional bases in R. Simply initialize the desired basis, which returns function of class \code{fctbasis}.
-
 Internally, functions are stored as C++ objects, which are masked by the package.
+The package maintains the bookkeeping of fctbasis objects. Parameters are validated at initialization which also reduces some of the overhead.
+fctbases objects cannot be saved across sessions and must be re-initialised.
+
+Derivatives are provided. These are the mathematically correct ones and are as fast as the non-derivatives.
+}
+\seealso{
+\link{Functional basis function}
 }

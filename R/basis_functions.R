@@ -54,7 +54,7 @@ make.pol.basis <- function(order) {
 #' @return Function of class "fctbasis"
 #' @export
 #'
-#' @seealso \link{Functional basis function}
+#' @seealso \link{Functional basis function}, \link{make.std.bspline.basis}
 #'
 #' @examples
 #' ## B-spline with equidistant knots with 13 basis function
@@ -107,6 +107,7 @@ basis.to.function <- function(basis) {
 #' bf <- make.std.bspline.basis(range = c(0,2), intervals = 15)
 #'
 make.std.bspline.basis <- function(range = c(0,1), intervals) {
+  if (intervals < 4L) stop("At least four intervals needed!")
   basis.to.function(init_bspline_u4(range[1], range[2], intervals))
 }
 

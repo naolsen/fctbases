@@ -1,5 +1,5 @@
 # fctbases
-Easy-to-use, efficient implementations of functional bases for use in functional data analysis and elsewhere.
+R-package: Easy-to-use, efficient implementations of functional bases for use in functional data analysis and elsewhere.
 
 `fctbases` implements some of the common linear functional bases such as B-splines and Fourier bases and stores these internally as C++ objects, accesssed from R as normal functions. In this way there is no need for initializing an R object every time a basis is used in R. One simply initializes the desired basis, which is returned as an R function that one calls with desired time point and possibly coefficients. All calculations are implemented in C++. By  moving some of computations to the time when objects are initialized, this speeds up some of the computations the even more.
 The package takes care of the internal bookkeeping of C++ objects and ensures the validity of these. 
@@ -44,7 +44,7 @@ The resulting function takes three arguments: `t` is a vector of time points, `x
 
 ## Installation
 Download and install the package as a source package or use devtools, e.g. `devtools::install_github("naolsen/fctbases")`. A C++ compiler is required to compile the source. 
-The package is also available from CRAN `install.package("fctbases")`.
+The package is also available from CRAN `install.package("fctbases")` (the version on Github may be newer).
 
 ## Issues
 It is currently not possible to save `fctbases` objects as .RData objects (and likely will not be).   
