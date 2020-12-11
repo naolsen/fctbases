@@ -1,14 +1,14 @@
 # fctbases
 R-package: Easy-to-use, efficient implementations of functional bases for use in functional data analysis and elsewhere.
 
-`fctbases` implements some of the common linear functional bases such as B-splines and Fourier bases and stores these internally as C++ objects, accesssed from R as normal functions. In this way there is no need for initializing an R object every time a basis is used in R. One simply initializes the desired basis, which is returned as an R function that one calls with desired time point and possibly coefficients. All calculations are implemented in C++. By  moving some of computations to the time when objects are initialized, this speeds up some of the computations the even more.
+`fctbases` is a package for R, which implements some of the common linear functional bases such as B-splines and Fourier bases and stores these internally as C++ objects, accesssed from R as normal functions. In this way there is no need for initializing an R object every time a basis is used in R. One simply initializes the desired basis, which is returned as an R function that one calls with desired time point and possibly coefficients. All calculations are implemented in C++. By  moving some of computations to the time when objects are initialized, this speeds up some of the computations the even more.
 The package takes care of the internal bookkeeping of C++ objects and ensures the validity of these. 
 
 In short what you can do is:
 
-* Calculate basis at desired time point(s)
-* Evaluate basis with coefficients at desired time point(s)
-* Both of the above, but also for first and second order derivates
+* Calculate the values of a basis at desired time point(s)
+* Evaluate a basis with coefficients at desired time point(s)
+* Both of the above, but also for first and second order derivatives.
 
 ## Usage
 Initialize a basis function by calling an appropiate initialization function, e.g.
@@ -47,7 +47,8 @@ Download and install the package as a source package or use devtools, e.g. `devt
 The package is also available from CRAN `install.package("fctbases")` (the version on Github may be newer).
 
 ## Issues
-It is currently not possible to save `fctbases` objects as .RData objects (and likely will not be).   
+It is currently not possible to save `fctbasis` objects as .RData objects (and likely will not be).  
+Using a `fctbasis` object from a previous session will return an error. 
 
 ## Other
 Feel free to contribute and add suggestions. There are some bases, that I think would be nice to add: natural cubic splines, hermitian polynomials, wavelets bases and possibly others.

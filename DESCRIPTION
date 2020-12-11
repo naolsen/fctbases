@@ -12,4 +12,6 @@ Description: Easy-to-use, very fast implementation of various functional bases. 
 URL: https://github.com/naolsen/fctbases
 License: GPL-3
 Imports: Rcpp (>= 0.12.19)
+Suggests: knitr, rmarkdown, microbenchmark
+VignetteBuilder: knitr, rmarkdown
 LinkingTo: Rcpp, RcppArmadillo

@@ -18,8 +18,8 @@ function
 This initializes a bspline of order 4 with uniformly places knots. df = intervals + 3.
 }
 \details{
-\code{make.std.bspline.basis} uses a different internal implementation than \code{make.bspline.basis}, 
-but is not conclusively faster.
+\code{make.std.bspline.basis} uses a different implementation than \code{make.bspline.basis}, 
+but is not faster in all uses.
 }
 \examples{
 ## 16 equidistant knots between 0 and 2 (both included)
