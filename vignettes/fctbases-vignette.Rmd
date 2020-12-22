@@ -127,6 +127,6 @@ The version on Github may be newer: download the source package or use devtools,
 
 ## Issues
 It is currently not possible to save `fctbases` objects as .RData objects (and likely will not be).
-Using a `fctbasis` object from a previous session will return an error. 
+Using a `fctbasis` object from a previous session will return an error.
 
 

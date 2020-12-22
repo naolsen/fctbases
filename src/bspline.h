@@ -175,7 +175,7 @@ public:
       
       if (n_basis != coefs.n_elem) stop("Coeffienct vector must have same length as number of bases");
       
-      vec ud = zeros<vec>(x.n_elem);
+      vec ud(x.n_elem);
       for (unsigned int zz = 0; zz < x.n_elem; zz ++) {
         double xx = x[zz];
       

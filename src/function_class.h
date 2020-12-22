@@ -43,7 +43,16 @@ public:
     for (unsigned int kk = 0; kk < x.n_elem; kk++) ud(kk) = eval_fct(x(kk), coefs);
     return ud;
   };
-  
+
+  // Matrixinput
+  virtual arma::mat eval_fct_mat(const arma::vec& x, const arma::mat& coefs) {
+    if (n_basis != coefs.n_rows) throw std::invalid_argument("Coeffienct vector must have same length as number of bases");
+
+    mat ud(x.n_elem, coefs.n_cols);
+    for (unsigned int kk = 0; kk < coefs.n_cols; kk++) ud.col(kk) = eval_fct(x, coefs.col(kk));
+    return ud;
+  };
+
   virtual arma::vec eval_deriv_coefs(double x) = 0;
   virtual arma::mat eval_deriv_coefs(const arma::vec& x) {
     
@@ -59,6 +68,15 @@ public:
     vec ud(x.n_elem);
     for (unsigned int kk = 0; kk < x.n_elem; kk++) ud(kk) = eval_deriv(x(kk), coefs);
     
+    return ud;
+  };
+
+  // Matrixinput
+  virtual arma::mat eval_deriv_mat(const arma::vec& x, const arma::vec& coefs) {
+    if (n_basis != coefs.n_rows) throw std::invalid_argument("Coeffienct vector must have same length as number of bases");
+
+    mat ud(x.n_elem, coefs.n_cols);
+    for (unsigned int kk = 0; kk < coefs.n_cols; kk++) ud.col(kk) = eval_deriv(x, coefs.col(kk));
     return ud;
   };
 
@@ -84,6 +102,15 @@ public:
     vec ud(x.n_elem);
     for (unsigned int kk = 0; kk < x.n_elem; kk++) ud(kk) = eval_d2(x(kk), coefs);
 
+    return ud;
+  };
+
+  // Matrixinput
+  virtual arma::vec eval_d2_mat(const arma::vec& x, const arma::mat& coefs) {
+    if (n_basis != coefs.n_rows) throw std::invalid_argument("Coeffienct vector must have same length as number of bases");
+
+    mat ud(x.n_elem, coefs.n_cols);
+    for (unsigned int kk = 0; kk < x.n_elem; kk++) ud.col(kk) = eval_d2(x, coefs.col(kk));
     return ud;
   };
   

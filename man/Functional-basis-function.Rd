@@ -6,12 +6,14 @@
 \arguments{
 \item{t}{time points}
 
-\item{x}{vector of coefficients (optional)}
+\item{x}{vector or matrix of coefficients (optional)}
 
 \item{deriv}{Should the derivative be used and which order? Defaults to \code{FALSE}}
 }
 \value{
-Returns a matrix if x is missing, and a vector if x is provided.
+Returns a matrix of dimension \code{length(t)} \times no. of bases if \code{x} is missing.
+If \code{x} is provided and is a vector, it returns a vector of same length as \code{t}. 
+If \code{x} is provided and is a vector, it returns a matrix of dimension \code{length(t)} \times \code{ncol(x)}
 }
 \description{
 A fctbases object is a function of class \code{fctbasis} which takes three arguments \code{(t, x, deriv)}
@@ -19,7 +21,9 @@ A fctbases object is a function of class \code{fctbasis} which takes three argum
 \details{
 If \code{deriv} is zero or \code{FALSE}, the function itself is evaluated.
 If \code{deriv} is one or \code{TRUE}, the first derivative is evaluated.
-If \code{deriv} is two, the second derivative is evaluated.
+If \code{deriv} is two, the second derivative is evaluated. 
+
+The dimension of \code{x} must match the number of basis functions.
 }
 \examples{
 ## Create basis (here a b spline)

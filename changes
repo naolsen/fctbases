@@ -19,3 +19,5 @@ Version 1.0.0: Derivatives of second order. Second-order derivatives have not ye
 Version 1.0.1: Fixed missing argument for second order derivatives, f(t,x, deriv = 2) now works. Improved documentation since 1.0.0.
 
 Version 1.0.2: Implemented second order derivative for std.bspline.basis. Small tweaks.
+
+Version 1.1: Matrix feature. x in f(t,x, deriv) can now be a matrix (dimensions have to match). Also included a vignette since 1.0.2.
