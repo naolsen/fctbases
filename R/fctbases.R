@@ -1,9 +1,12 @@
 #' @description
 #' fctbases is a fast and easy implementation of functional bases in R. Simply initialize the desired basis, which returns function of class \code{fctbasis}.
+#' fctbases provides a convenient way of this.
 #'
 #' @details Internally, functions are stored as C++ objects, which are masked by the package.
 #' The package maintains the bookkeeping of fctbasis objects. Parameters are validated at initialization which also reduces some of the overhead.
 #' fctbases objects cannot be saved across sessions and must be re-initialised.
+#'
+#' Derivatives are provided. These are the mathematically correct ones and are as fast as the non-derivatives.
 #'
 #' @seealso \link{Functional basis function}
 #'
@@ -18,11 +21,15 @@
 #' @param x vector of coefficients (optional)
 #' @param deriv Should the derivative be used and which order? Defaults to \code{FALSE}
 #'
-#' @details If \code{deriv} is \code{FALSE} or zero, the function itself is evaluated.
+#' @details If \code{deriv} is zero or \code{FALSE}, the function itself is evaluated.
 #' If \code{deriv} is one or \code{TRUE}, the first derivative is evaluated.
 #' If \code{deriv} is two, the second derivative is evaluated.
 #'
-#' @return Returns a matrix if x is missing, and a vector if x is provided.
+#' The dimension of \code{x} must match the number of basis functions.
+#'
+#' @return Returns a matrix of dimension \code{length(t)} times no. of bases if \code{x} is missing.
+#' If \code{x} is provided and is a vector, it returns a vector of same length as \code{t}.
+#' If \code{x} is provided and is a matrix, it returns a matrix of dimension \code{length(t)} times \code{ncol(x)}
 #'
 #' @examples
 #' ## Create basis (here a b spline)

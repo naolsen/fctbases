@@ -13,7 +13,7 @@
 \value{
 Returns a matrix of dimension \code{length(t)} \times no. of bases if \code{x} is missing.
 If \code{x} is provided and is a vector, it returns a vector of same length as \code{t}. 
-If \code{x} is provided and is a vector, it returns a matrix of dimension \code{length(t)} \times \code{ncol(x)}
+If \code{x} is provided and is a matrix, it returns a matrix of dimension \code{length(t)} times \code{ncol(x)}
 }
 \description{
 A fctbases object is a function of class \code{fctbasis} which takes three arguments \code{(t, x, deriv)}
