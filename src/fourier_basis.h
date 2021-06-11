@@ -31,7 +31,7 @@ public:
     // konstructor
 public:
   fourierBasis(double left, double right, int f_order): functionObject(2 * f_order + 1),
-  left_end(left), right_end(right), length(right- left), order(f_order),  inv_length(2*PI/length)  {
+  left_end(left), right_end(right), length(right- left), order(f_order),  inv_length(2*M_PI/length)  {
     if (f_order < 1) throw std::invalid_argument("Order must be strictly positive.");
   }
   
