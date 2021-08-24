@@ -36,7 +36,7 @@ public:
   }
   
   arma::vec eval_coefs(double x) {
-    double z = (x-left_end) * inv_length;
+    const double z = (x-left_end) * inv_length;
     
     vec ret(n_basis);
     ret(0) = 1;
@@ -52,7 +52,7 @@ public:
     
     for (unsigned int kk = 0; kk < x.n_elem; kk++) {
       
-      double z = (x(kk)-left_end) * inv_length;
+      const double z = (x(kk)-left_end) * inv_length;
       
       rowvec ret(n_basis);
       rowvec::row_iterator rit = ret.begin();
@@ -73,7 +73,7 @@ public:
     
     if (n_basis != coefs.n_elem) throw std::invalid_argument("Coeffienct vector must have same length as number of bases");
     
-    double z = (x-left_end) * inv_length;
+    const double z = (x-left_end) * inv_length;
     double ud = coefs(0);
     
     for (int i=1; i<=order; i++) {
@@ -96,7 +96,7 @@ public:
   }
   
   arma::vec eval_deriv_coefs(double x) {
-    double z = (x-left_end) * inv_length;
+    const double z = (x-left_end) * inv_length;
     
     vec ret(n_basis);
     
@@ -112,7 +112,7 @@ public:
     mat ud(x.n_elem, n_basis);
     
     for (unsigned int kk = 0; kk < x.n_elem; kk++) {
-      double z = (x(kk)-left_end) * inv_length;
+      const double z = (x(kk)-left_end) * inv_length;
       rowvec ret(n_basis);
       
       ret(0) = 0;
@@ -130,7 +130,7 @@ public:
     
     if (n_basis != coefs.n_elem) throw std::invalid_argument("Coeffienct vector must have same length as number of bases");
     
-    double z = (x-left_end) * inv_length;
+    const double z = (x-left_end) * inv_length;
     double ud = 0;
     
     for (int i=1; i<=order; i++) {
@@ -152,7 +152,7 @@ public:
 
    arma::vec eval_d2_coefs(double x) {
 
-    double z = (x-left_end) * inv_length;
+    const double z = (x-left_end) * inv_length;
     vec ret(n_basis);
 
     ret(0) = 0;
@@ -192,7 +192,7 @@ public:
   
   
   arma::vec eval_coefs(double x) {
-    double z = (x-left_end) * inv_length;
+    const double z = (x-left_end) * inv_length;
     
     vec ret(n_basis);
     ret(0) = 1;
@@ -211,7 +211,7 @@ public:
     
     for (unsigned int zz = 0; zz < x.n_elem; zz++) {
       double xx = x[zz];
-      double z = (xx-left_end) * inv_length;
+      const double z = (xx-left_end) * inv_length;
       
       ud(zz,0) = 1;
       double si = ud(zz,1) = sin(z);
@@ -229,7 +229,7 @@ public:
     
     if (n_basis != coefs.n_elem) throw std::invalid_argument("Coeffienct vector must have same length as number of bases");
     
-    double z = (x-left_end) * inv_length;
+    const double z = (x-left_end) * inv_length;
     double ud = coefs(0);
     double si = sin(z);
     double sii = si;
@@ -250,7 +250,7 @@ public:
   };
 
     arma::vec eval_deriv_coefs(double x) {
-    double z = (x-left_end) * inv_length;
+    const double z = (x-left_end) * inv_length;
 
     vec ret(n_basis);
 
@@ -287,7 +287,7 @@ public:
 
     if (n_basis != coefs.n_elem) throw std::invalid_argument("Coeffienct vector must have same length as number of bases");
 
-    double z = (x-left_end) * inv_length;
+    const double z = (x-left_end) * inv_length;
     double ud = 0;
 
     double co = cos(z);
@@ -314,7 +314,7 @@ public:
     vec ud(x.n_elem);
 
     for (unsigned int kk = 0; kk < x.n_elem; kk++) {
-      double z = (x(kk)-left_end) * inv_length;
+     const double z = (x(kk)-left_end) * inv_length;
       vec::const_iterator it = coefs.begin();
 
       double co = cos(z);

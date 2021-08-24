@@ -35,7 +35,7 @@ public:
     rowvec ret = rowvec(n_basis);
 
     for (unsigned int zz = 0; zz < x.n_elem; zz++) {
-      double yy = x(zz);
+      const double yy = x(zz);
       x0 = ret(0) = 1.0;
       for (unsigned int i=1; i< n_basis; i++) {
         ret(i) = x0 *= yy;
