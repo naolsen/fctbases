@@ -11,8 +11,7 @@ using namespace Rcpp;
 
 
 inline vec make_tknots(const vec& spline_knots, int deg) {
-  
-  
+
   if (deg > 0) {
     int n_el = spline_knots.n_elem;
     vec kk(n_el + deg);
@@ -257,7 +256,7 @@ public:
     // Evaluaterer d/dx B(x) ganget på koefficienter
     double eval_deriv(double x, const arma::vec& coefs) {
       
-      // if spline order is 1, then derivate is zero.
+      // if spline order is 1, then derivative is zero.
       if (deg > 0) {
         // Find interval
         int i = getIndexOf(x)-1;
@@ -581,12 +580,12 @@ public:
     
     if (n_basis != coefs.n_elem) stop("Coeffienct vector must have same length as number of bases");
     vec ret = zeros<vec>(4);
-    vec ud(x.n_elem);
-    
+    vec ud(x.n_elem, fill::none);
+
     
     for (unsigned int zz = 0; zz < x.n_elem; zz ++) {
         
-        double xx = x[zz];
+      const double xx = x[zz];
       
       int i = getIndexOf(xx)-1;
       
@@ -602,59 +601,59 @@ public:
         // -2,-1,0,1,2.
         int bcase3 = -(i < 2) - (i == 0) + (i == n_intervals-1) + (i > n_intervals - 3);
         
-        ret[1] = (xx-knots[i])*inv_length;
-        ret[0] = (knots[i+1] - xx)*inv_length;
+        ret[1] = (xx-knots[i]);
+        ret[0] = (knots[i+1] - xx);
         
         switch(bcase2) {
         case -1: 
-          ret(2) = (xx - knots[0])*ret(1)*inv_length2;
-          ret(1) = (xx - knots[0])*ret(0)*inv_length + (knots[2] - xx)*ret(1)*inv_length2;
-          ret(0) = (knots[1] - xx)*ret(0)*inv_length;
+          ret[2] = (xx - knots[0])*ret[1]*inv_length2;
+          ret[1] = (xx - knots[0])*ret[0]*inv_length + (knots[2] - xx)*ret[1]*inv_length2;
+          ret[0] = (knots[1] - xx)*ret[0]*inv_length;
           break;
         case 0:
-          ret(2) = (xx - knots[i])*ret(1)*inv_length2;
-          ret(1) = ((xx - knots[i-1])*ret(0)+(knots[i+2] - xx)*ret(1))*inv_length2;
-          ret(0) = (knots[i+1] - xx)*ret(0)*inv_length2;
+          ret[2] = (xx - knots[i])*ret[1]*inv_length2;
+          ret[1] = ((xx - knots[i-1])*ret[0]+(knots[i+2] - xx)*ret[1])*inv_length2;
+          ret[0] = (knots[i+1] - xx)*ret[0]*inv_length2;
           break;
         case 1: 
-          ret(2) = (xx - knots[i])*ret(1)*inv_length;
-          ret(1) = (xx - knots[i-1])*ret(0)*inv_length2 + 
-            (knots[i+1] - xx)*ret(1)*inv_length;
-          ret(0) = (knots[i+1] - xx)*ret(0)*inv_length2;
+          ret[2] = (xx - knots[i])*ret[1]*inv_length;
+          ret[1] = (xx - knots[i-1])*ret[0]*inv_length2 +
+            (knots[i+1] - xx)*ret[1]*inv_length;
+          ret[0] = (knots[i+1] - xx)*ret[0]*inv_length2;
           break;
         }
         switch(bcase3) {
         case -2: 
-          ret(3) = (xx - knots[0])*ret(2)*inv_length3;
-          ret(2) = (xx - knots[0])*ret(1)*inv_length2+(knots[3] - xx)*ret(2)*inv_length3;
-          ret(1) = (xx - knots[0])*ret(0)*inv_length + (knots[2] - xx)*ret(1)*inv_length2;
-          ret(0) = (knots[1] - xx)*ret(0)*inv_length;
+          ret[3] = (xx - knots[0])*ret[2]*inv_length3;
+          ret[2] = (xx - knots[0])*ret[1]*inv_length2+(knots[3] - xx)*ret[2]*inv_length3;
+          ret[1] = (xx - knots[0])*ret[0]*inv_length + (knots[2] - xx)*ret[1]*inv_length2;
+          ret[0] = (knots[1] - xx)*ret[0]*inv_length;
           break;
         case -1: 
-          ret(3) = (xx - knots[1])*ret(2)*inv_length3;
-          ret(2) = ((xx - knots[0])*ret(1)+(knots[4] - xx)*ret(2))*inv_length3;
-          ret(1) = (xx - knots[0])*ret(0)*inv_length2 + (knots[3] - xx)*ret(1)*inv_length3;
-          ret(0) = (knots[2] - xx)*ret(0)*inv_length2;
+          ret[3] = (xx - knots[1])*ret[2]*inv_length3;
+          ret[2] = ((xx - knots[0])*ret[1]+(knots[4] - xx)*ret[2])*inv_length3;
+          ret[1] = (xx - knots[0])*ret[0]*inv_length2 + (knots[3] - xx)*ret[1]*inv_length3;
+          ret[0] = (knots[2] - xx)*ret[0]*inv_length2;
           break;
         case 0:
-          ret(3) = (xx - knots[i])*ret(2)*inv_length3;
-          ret(2) = ((xx - knots[i-1])*ret(1)+(knots[i+3] - xx)*ret(2))*inv_length3;
-          ret(1) = ((xx - knots[i-2])*ret(0)+(knots[i+2] - xx)*ret(1))*inv_length3;
-          ret(0) = (knots[i+1] - xx)*ret(0)*inv_length3;
+          ret[3] = (xx - knots[i])*ret[2]*inv_length3;
+          ret[2] = ((xx - knots[i-1])*ret[1]+(knots[i+3] - xx)*ret[2])*inv_length3;
+          ret[1] = ((xx - knots[i-2])*ret[0]+(knots[i+2] - xx)*ret[1])*inv_length3;
+          ret[0] = (knots[i+1] - xx)*ret[0]*inv_length3;
           break;
         case 1: 
-          ret(3) = (xx - knots[i])*ret(2)*inv_length2;
-          ret(2) = (xx - knots[i-1])*ret(1)*inv_length3 +
-            (knots[i+2] - xx)*ret(2)*inv_length2;
-          ret(1) = ((xx - knots[i-2])*ret(0)+(knots[i+2] - xx)*ret(1))*inv_length3;
-          ret(0) = (knots[i+1] - xx)*ret(0)*inv_length3;
+          ret[3] = (xx - knots[i])*ret[2]*inv_length2;
+          ret[2] = (xx - knots[i-1])*ret[1]*inv_length3 +
+            (knots[i+2] - xx)*ret[2]*inv_length2;
+          ret[1] = ((xx - knots[i-2])*ret[0]+(knots[i+2] - xx)*ret[1])*inv_length3;
+          ret[0] = (knots[i+1] - xx)*ret[0]*inv_length3;
           break;
         case 2: 
-          ret(3) = (xx - knots[i])*ret(2)*inv_length;
-          ret(2) =  (xx - knots[i-1])*ret(1)*inv_length2 +
-            (knots[i+1] - xx)*ret(2)*inv_length;
-          ret(1) = (xx - knots[i-2])*ret(0)*inv_length3+(knots[i+1] - xx)*ret(1)*inv_length2;
-          ret(0) = (knots[i+1] - xx)*ret(0)*inv_length3;
+          ret[3] = (xx - knots[i])*ret[2]*inv_length;
+          ret[2] =  (xx - knots[i-1])*ret[1]*inv_length2 +
+            (knots[i+1] - xx)*ret[2]*inv_length;
+          ret[1] = (xx - knots[i-2])*ret[0]*inv_length3+(knots[i+1] - xx)*ret[1]*inv_length2;
+          ret[0] = (knots[i+1] - xx)*ret[0]*inv_length3;
           break;
         }
       }
@@ -662,7 +661,7 @@ public:
         retur +=  ret[1]*coefs(++i);
         retur += ret[2]*coefs(++i);
         retur += ret[3]*coefs(++i);
-      ud[zz] = retur;
+      ud[zz] = retur * inv_length;
   }
     return ud;
   };
