@@ -38,7 +38,7 @@ public:
   arma::vec eval_coefs(double x) {
     const double z = (x-left_end) * inv_length;
     
-    vec ret(n_basis);
+    vec ret(n_basis, fill::none);
     ret(0) = 1;
     for (int i=1; i<=order; i++) {
       ret(2*i-1) = sin(z*i);
@@ -48,13 +48,13 @@ public:
   }
   
   arma::mat eval_coefs(const arma::vec& x) {
-    mat ud(x.n_elem , n_basis);
+    mat ud(x.n_elem , n_basis, fill::none);
     
     for (unsigned int kk = 0; kk < x.n_elem; kk++) {
       
       const double z = (x(kk)-left_end) * inv_length;
       
-      rowvec ret(n_basis);
+      rowvec ret(n_basis, fill::none);
       rowvec::row_iterator rit = ret.begin();
       (*rit) = 1;
       
@@ -88,7 +88,7 @@ public:
   arma::vec eval_fct(const arma::vec& x, const arma::vec& coefs) {
     if (n_basis != coefs.n_elem) throw std::invalid_argument("Coeffienct vector must have same length as number of bases");
     
-    vec ud(x.n_elem);
+    vec ud(x.n_elem, fill::none);
     for (unsigned int kk = 0; kk < x.n_elem; kk++) {
       ud(kk) = eval_fct(x(kk), coefs);
     }
@@ -98,7 +98,7 @@ public:
   arma::vec eval_deriv_coefs(double x) {
     const double z = (x-left_end) * inv_length;
     
-    vec ret(n_basis);
+    vec ret(n_basis, fill::none);
     
     ret(0) = 0;
     for (int i=1; i<=order; i++) {
@@ -109,7 +109,7 @@ public:
     return ret;
   }
   arma::mat eval_deriv_coefs(const arma::vec& x) {
-    mat ud(x.n_elem, n_basis);
+    mat ud(x.n_elem, n_basis, fill::none);
     
     for (unsigned int kk = 0; kk < x.n_elem; kk++) {
       const double z = (x(kk)-left_end) * inv_length;
@@ -153,7 +153,7 @@ public:
    arma::vec eval_d2_coefs(double x) {
 
     const double z = (x-left_end) * inv_length;
-    vec ret(n_basis);
+    vec ret(n_basis, fill::none);
 
     ret(0) = 0;
     for (int i=1; i<=order; i++) {
@@ -194,7 +194,7 @@ public:
   arma::vec eval_coefs(double x) {
     const double z = (x-left_end) * inv_length;
     
-    vec ret(n_basis);
+    vec ret(n_basis, fill::none);
     ret(0) = 1;
     double si = ret(1) = sin(z);
     double co = ret(2) = cos(z);
@@ -207,7 +207,7 @@ public:
   
   arma::mat eval_coefs(const arma::vec& x) {
     
-    mat ud(x.n_elem, n_basis);
+    mat ud(x.n_elem, n_basis, fill::none);
     
     for (unsigned int zz = 0; zz < x.n_elem; zz++) {
       double xx = x[zz];
@@ -252,7 +252,7 @@ public:
     arma::vec eval_deriv_coefs(double x) {
     const double z = (x-left_end) * inv_length;
 
-    vec ret(n_basis);
+    vec ret(n_basis, fill::none);
 
     ret(0) = 0;
 
@@ -277,7 +277,7 @@ public:
   };
 
   arma::mat eval_deriv_coefs(const arma::vec& x) {
-    mat ud(n_basis, x.n_elem);
+    mat ud(n_basis, x.n_elem, fill::none);
 
     for (unsigned int kk = 0; kk < x.n_elem; kk++) ud.col(kk) =  eval_deriv_coefs(x(kk));
     return ud.t();
@@ -311,7 +311,7 @@ public:
   arma::vec eval_deriv(const arma::vec& x, const arma::vec& coefs) {
     if (n_basis != coefs.n_elem) throw std::invalid_argument("Coeffienct vector must have same length as number of bases");
 
-    vec ud(x.n_elem);
+    vec ud(x.n_elem, fill::none);
 
     for (unsigned int kk = 0; kk < x.n_elem; kk++) {
      const double z = (x(kk)-left_end) * inv_length;

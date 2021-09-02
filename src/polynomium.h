@@ -20,7 +20,7 @@ public:
   
   arma::vec eval_coefs(double x) {
     
-    vec ret = vec(n_basis);
+    vec ret = vec(n_basis, fill::none);
     double x0 = ret(0) = 1.0;
     for (unsigned int i=1; i< n_basis; i++) {
       ret(i) = x0 *= x;
@@ -30,9 +30,9 @@ public:
   
   arma::mat eval_coefs(const arma::vec& x) {
     
-    mat ud = mat(x.n_elem, n_basis);
+    mat ud = mat(x.n_elem, n_basis, fill::none);
     double x0;
-    rowvec ret = rowvec(n_basis);
+    rowvec ret = rowvec(n_basis, fill::none);
 
     for (unsigned int zz = 0; zz < x.n_elem; zz++) {
       const double yy = x(zz);
@@ -60,7 +60,7 @@ public:
   arma::vec eval_fct(const arma::vec& x, const arma::vec& coefs) { // kan måske forbedres, brug pointer til element.
     if (n_basis != coefs.n_elem) stop("Coeffienct vector must have same length as number of bases");
     
-    vec ud = vec(x.n_elem);
+    vec ud = vec(x.n_elem, fill::none);
     for (unsigned int kk = 0; kk < x.n_elem; kk++) ud(kk) = eval_fct(x(kk), coefs);
     
     return ud;
@@ -68,7 +68,7 @@ public:
   
   // Evaluerer d/dx B(x)
   arma::vec eval_deriv_coefs(double x)  {
-    vec ret = vec(n_basis);
+    vec ret = vec(n_basis, fill::none);
     double x0 = 1.0;
     ret(0) = 0.0;
     for (unsigned int i=1; i< n_basis; i++) {
@@ -97,14 +97,14 @@ public:
   arma::vec eval_deriv(const arma::vec& x, const arma::vec& coefs) {
     if (n_basis != coefs.n_elem) stop("Coeffienct vector must have same length as number of bases");
     
-    vec ud = vec(x.n_elem);
+    vec ud = vec(x.n_elem, fill::none);
     for (unsigned int kk = 0; kk < x.n_elem; kk++) ud[kk] = eval_deriv(x[kk], coefs);
     
     return ud;
   };
   
   arma::vec eval_d2_coefs(double x) {
-    vec ret = vec(n_basis);
+    vec ret = vec(n_basis, fill::none);
     double x0 = 1.0;
     ret(0) = ret(1) = 0;
     for (unsigned int i=2; i< n_basis; i++) {

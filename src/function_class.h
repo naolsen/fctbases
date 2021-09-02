@@ -20,13 +20,15 @@ class functionObject { // Ny funktionalitet: Opretter og sletter sig selv i data
 public:
   const unsigned int n_basis; // Allowed range: 1-32767.
   bool suppressWarnings; // Kan implementeres af sub-klasser.
-  
+
+  // Zeroth derivatives
+  //
   virtual arma::vec eval_coefs(double x) = 0;
   
   // Overskriv gerne
   virtual arma::mat eval_coefs(const arma::vec& x) {
     
-    mat ud = mat(n_basis, x.n_elem);
+    mat ud = mat(n_basis, x.n_elem, fill::none);
     for (unsigned int kk = 0; kk < x.n_elem; kk++) ud.col(kk) =  eval_coefs(x(kk));
     return ud.t();
   };
@@ -39,7 +41,7 @@ public:
   virtual arma::vec eval_fct(const arma::vec& x, const arma::vec& coefs) {
     if (n_basis != coefs.n_elem) throw std::invalid_argument("Coeffienct vector must have same length as number of bases");
     
-    vec ud(x.n_elem);
+    vec ud(x.n_elem, fill::none);
     for (unsigned int kk = 0; kk < x.n_elem; kk++) ud(kk) = eval_fct(x(kk), coefs);
     return ud;
   };
@@ -48,15 +50,17 @@ public:
   virtual arma::mat eval_fct_mat(const arma::vec& x, const arma::mat& coefs) {
     if (n_basis != coefs.n_rows) throw std::invalid_argument("Coeffienct vector must have same length as number of bases");
 
-    mat ud(x.n_elem, coefs.n_cols);
+    mat ud(x.n_elem, coefs.n_cols, fill::none);
     for (unsigned int kk = 0; kk < coefs.n_cols; kk++) ud.col(kk) = eval_fct(x, coefs.col(kk));
     return ud;
   };
 
+  // First derivatives
+  //
   virtual arma::vec eval_deriv_coefs(double x) = 0;
   virtual arma::mat eval_deriv_coefs(const arma::vec& x) {
     
-    mat ud(n_basis, x.n_elem);
+    mat ud(n_basis, x.n_elem, fill::none);
     for (unsigned int kk = 0; kk < x.n_elem; kk++) ud.col(kk) =  eval_deriv_coefs(x(kk));
     return ud.t();
   };
@@ -65,46 +69,44 @@ public:
   virtual arma::vec eval_deriv(const arma::vec& x, const arma::vec& coefs) {
     if (n_basis != coefs.n_elem) throw std::invalid_argument("Coeffienct vector must have same length as number of bases");
     
-    vec ud(x.n_elem);
+    vec ud(x.n_elem, fill::none);
     for (unsigned int kk = 0; kk < x.n_elem; kk++) ud(kk) = eval_deriv(x(kk), coefs);
     
     return ud;
   };
-
   // Matrixinput
   virtual arma::mat eval_deriv_mat(const arma::vec& x, const arma::vec& coefs) {
     if (n_basis != coefs.n_rows) throw std::invalid_argument("Coeffienct vector must have same length as number of bases");
 
-    mat ud(x.n_elem, coefs.n_cols);
+    mat ud(x.n_elem, coefs.n_cols, fill::none);
     for (unsigned int kk = 0; kk < coefs.n_cols; kk++) ud.col(kk) = eval_deriv(x, coefs.col(kk));
     return ud;
   };
 
+  // Second derivatives
+  //
   virtual arma::vec eval_d2_coefs(double x) {
-    stop("Not implemented");
+    stop("Not implemented for this functional basis");
   };
   virtual arma::mat eval_d2_coefs(const arma::vec& x) {
 
-    mat ud(n_basis, x.n_elem);
+    mat ud(n_basis, x.n_elem, fill::none);
     for (unsigned int kk = 0; kk < x.n_elem; kk++) ud.col(kk) =  eval_d2_coefs(x(kk));
     return ud.t();
   };
 
   virtual double eval_d2(double x, const arma::vec& coefs) {
-
-    vec basis = eval_d2_coefs(x);
-    return arma::dot(basis, coefs);
+    return arma::dot(eval_d2_coefs(x), coefs);
   };
   virtual arma::vec eval_d2(const arma::vec& x, const arma::vec& coefs) {
 
     if (n_basis != coefs.n_elem) throw std::invalid_argument("Coeffienct vector must have same length as number of bases");
 
-    vec ud(x.n_elem);
+    vec ud(x.n_elem, fill::none);
     for (unsigned int kk = 0; kk < x.n_elem; kk++) ud(kk) = eval_d2(x(kk), coefs);
 
     return ud;
   };
-
   // Matrixinput
   virtual arma::vec eval_d2_mat(const arma::vec& x, const arma::mat& coefs) {
     if (n_basis != coefs.n_rows) throw std::invalid_argument("Coeffienct vector must have same length as number of bases");
