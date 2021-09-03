@@ -656,12 +656,12 @@ public:
           ret[0] = (knots[i+1] - xx)*ret[0]*inv_length3;
           break;
         }
-      }
       double retur = ret[0]*coefs(i);
         retur +=  ret[1]*coefs(++i);
         retur += ret[2]*coefs(++i);
         retur += ret[3]*coefs(++i);
       ud[zz] = retur * inv_length;
+    }
   }
     return ud;
   };
