@@ -97,11 +97,35 @@ public:
     // Evaluates B-spline y at specfified values x
     // If x is outside of the range of y, 0 is returned with a warning.
     arma::mat eval_coefs(const arma::vec& x) {
-      
-      mat ud(x.n_elem, n_basis, fill::none);
 
-      for (unsigned int kk = 0; kk < x.n_elem; kk++) {
-        ud.row(kk) =  bspline::eval_coefs(x[kk]).as_row();
+     mat ud = zeros<mat>(x.n_elem, n_basis);
+
+      for (unsigned int zz = 0; zz < x.n_elem; zz ++) {
+
+      double xx = x[zz];
+
+      int i = getIndexOf(xx)-1;
+      if (i < 0) {
+        Rf_warning("Outside of range");
+      }
+      else {
+
+        ud(zz,i) = 1;
+
+          for (int j=1; j < order; j++) {
+
+            for (int k = i-j; k < i; k++) {
+              double dd = tknots(k+j) - tknots(k);
+              if (dd) ud(zz, k) = (xx- knots(k))/dd * ud(zz,k) +
+                ( tknots(k+j+1) - xx)/( tknots(k+j+1) - tknots(k+1))* ud(zz,k+1);
+              else {
+                ud(zz,k) = (tknots(k+j+1) - xx)/( tknots(k+j+1) - tknots(k+1))* ud(zz,k+1);
+              }
+            }
+            // afsluttende ..
+            ud(zz, i) = (xx - tknots(i)) / (tknots(i+j) - tknots(i))* ud(zz,i);
+          }
+        }
       }
       return ud;
     };
