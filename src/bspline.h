@@ -66,13 +66,10 @@ public:
     if (order < 1) throw std::invalid_argument("order must be strictly positive");
     else if (spline_knots.n_elem < 2) throw std::invalid_argument("At least two knots needed.");
     else {
-      
-      
       for (int i = 0; i < n_intervals; i++) if (knots(i) > knots(i+1))
         throw std::invalid_argument("Knots must be increasing");
     }
-    
-  }
+  };
 
   arma::vec eval_coefs(double x) {
 
@@ -101,39 +98,13 @@ public:
     // If x is outside of the range of y, 0 is returned with a warning.
     arma::mat eval_coefs(const arma::vec& x) {
       
-      mat ud = zeros<mat>(x.n_elem, n_basis);
-      
-      
-      for (unsigned int zz = 0; zz < x.n_elem; zz ++) {
-      
-      double xx = x[zz];
-      
-      int i = getIndexOf(xx)-1;
-      if (i < 0) {
-        Rf_warning("Outside of range");
-      }
-      else {
-        
-        ud(zz,i) = 1;
-        
-          for (int j=1; j < order; j++) {
+      mat ud(x.n_elem, n_basis, fill::none);
 
-            for (int k = i-j; k < i; k++) {
-              double dd = tknots(k+j) - tknots(k);
-              if (dd) ud(zz, k) = (xx- knots(k))/dd * ud(zz,k) +
-                ( tknots(k+j+1) - xx)/( tknots(k+j+1) - tknots(k+1))* ud(zz,k+1);
-              else {
-                ud(zz,k) = (tknots(k+j+1) - xx)/( tknots(k+j+1) - tknots(k+1))* ud(zz,k+1);
-              }
-            }
-            // afsluttende ..
-            ud(zz, i) = (xx - tknots(i)) / (tknots(i+j) - tknots(i))* ud(zz,i);
-          }
-        }
+      for (unsigned int kk = 0; kk < x.n_elem; kk++) {
+        ud.row(kk) =  bspline::eval_coefs(x[kk]).as_row();
       }
       return ud;
-      
-    }
+    };
     
     double eval_fct(double x, const arma::vec& coefs) {
       
@@ -565,14 +536,13 @@ public:
         ret(0) = (knots[i+1] - x)*ret(0)*inv_length3;
         break;
       }
-    }
-
     // compileren er næsvis!:
     double retur = ret[0]*coefs(i);
       retur += ret[1]*coefs(++i);
       retur += ret[2]*coefs(++i);
       retur += ret[3]*coefs(++i);
     return retur;
+    }
   };
   
   
@@ -830,14 +800,12 @@ public:
         ret(0) = -ret(0)*inv_length3;
         break;
       }
-      
-    }
-
     double retur = ret[0]*coefs(i);
       retur += ret[1]*coefs(++i);
       retur += ret[2]*coefs(++i);
       retur += ret[3]*coefs(++i);
     return 3 * retur;
+    }
     };
   
   arma::vec eval_d2_coefs(double x)  {
@@ -982,13 +950,12 @@ public:
         ret(0) = -ret(0)*inv_length3;
         break;
       }
-    }
-
     double retur = ret[0]*coefs(i);
       retur += ret[1]*coefs(++i);
       retur += ret[2]*coefs(++i);
       retur += ret[3]*coefs(++i);
     return 6 * retur;
+        }
     };
 };
 

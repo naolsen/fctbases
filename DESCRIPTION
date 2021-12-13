@@ -1,7 +1,7 @@
 Package: fctbases
 Type: Package
 Title: Functional Bases
-Version: 1.1.0
+Version: 1.1.1
 Date: 2020-11-26
 Author: Niels Olsen
 Maintainer: Niels Olsen <nalo@dtu.dk>
